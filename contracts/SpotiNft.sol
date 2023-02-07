@@ -16,13 +16,16 @@ contract SpotiNftMarketplace {
 
 
 contract SpotiNftAlbum is ERC721URIStorage {
+   address payable public owner;
+
    constructor (
       string memory albumName, 
-      string memory albumSymbol
+      string memory albumSymbol,
+      address _owner
    ) ERC721(
       albumName,
       albumSymbol
    ) {
-      
+      owner = payable(_owner);
    }
 }
