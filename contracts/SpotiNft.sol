@@ -16,6 +16,9 @@ contract SpotiNftMarketplace {
 
 
 contract SpotiNftAlbum is ERC721URIStorage {
+
+   using Counters for Counters.Counter;
+
    address payable public owner;
 
    constructor (
