@@ -6,29 +6,14 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract SpotiNftMarketplace {
+contract SpotiNftMarketplace is ERC721URIStorage {
    address payable public owner;
-
-   constructor() payable {
-      owner = payable(msg.sender);
-   }
-}
-
-
-contract SpotiNftAlbum is ERC721URIStorage {
-
    using Counters for Counters.Counter;
 
-   address payable public owner;
-
-   constructor (
-      string memory albumName, 
-      string memory albumSymbol,
-      address _owner
-   ) ERC721(
-      albumName,
-      albumSymbol
+   constructor() ERC721(
+      "SpotiNft",
+      "SP"
    ) {
-      owner = payable(_owner);
+      owner = payable(msg.sender);
    }
 }
