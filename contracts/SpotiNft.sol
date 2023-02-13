@@ -40,4 +40,8 @@ contract SpotiAlbum  is ERC721URIStorage{
       owner = payable(msg.sender);
       albumCover = _albumCover;
    }
+
+   function createSong() private {
+      
+   }
 }
