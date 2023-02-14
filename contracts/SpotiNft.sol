@@ -26,8 +26,9 @@ contract SpotiAlbum  is ERC721URIStorage{
    Counters.Counter private itemsSold;
 
    struct SpotiSong {
-      uint256 tokenId;
-      
+      uint256 id;
+      uint256 total_bought;
+      string url;
    }
 
    constructor(
