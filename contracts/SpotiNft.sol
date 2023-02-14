@@ -24,6 +24,7 @@ contract SpotiAlbum  is ERC721URIStorage{
 
    Counters.Counter private tokenIds;
    Counters.Counter private itemsSold;
+   Counters.Counter private songId;
 
    struct SpotiSong {
       uint256 id;
@@ -45,17 +46,24 @@ contract SpotiAlbum  is ERC721URIStorage{
       setSongs(_songs);
    }
 
-   function createSong() private {
-      
+   function addSong(string memory uri) private {
+      uint256 id = songId.current();
+      songs[id] = SpotiSong(
+         id,
+         0,
+         uri
+      );
    }
 
    function setSongs(string[] memory _songs) internal {
       for(uint256 i = 0; i < _songs.length; i++){
-         songs[i] = SpotiSong(
-            i,
+         uint256 id = songId.current(); 
+         songs[id] = SpotiSong(
+            id,
             0,
             _songs[i]
          );
+         songId.increment();
       }
    }
 }
