@@ -18,6 +18,7 @@ contract SpotiNftMarketplace {
 contract SpotiAlbum  is ERC721URIStorage{
    address payable public owner;
    string public albumCover;
+   string[] public songs;
 
    using Counters for Counters.Counter;
 
@@ -32,13 +33,15 @@ contract SpotiAlbum  is ERC721URIStorage{
    constructor(
       string memory _name, 
       string memory _symbol,
-      string memory _albumCover
+      string memory _albumCover,
+      string[] memory _songs
    ) ERC721(
       _name,
       _symbol
    ) {
       owner = payable(msg.sender);
       albumCover = _albumCover;
+      songs = _songs;
    }
 
    function createSong() private {
