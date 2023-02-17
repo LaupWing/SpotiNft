@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract SpotiNftMarketplace {
    address payable public owner;
+   SpotiAlbum[] public albums;
 
    constructor() {
       owner = payable(msg.sender);
@@ -17,6 +18,7 @@ contract SpotiNftMarketplace {
 
 contract SpotiAlbum  is ERC721URIStorage{
    address payable public owner;
+   string public artist;
    string public albumCover;
    mapping(uint256 => SpotiSong) public songs;
    mapping(uint256 => SpotiSongBought) public boughtSongs;
@@ -49,7 +51,8 @@ contract SpotiAlbum  is ERC721URIStorage{
       string memory _name, 
       string memory _symbol,
       string memory _albumCover,
-      string[] memory _songs
+      string[] memory _songs,
+      string memory _artist
    ) ERC721(
       _name,
       _symbol
