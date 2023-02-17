@@ -9,6 +9,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 contract SpotiNftMarketplace {
    address payable public owner;
    SpotiAlbum[] public albums;
+   
+   struct Artist {
+      address artist_address;
+      string name;
+   }
 
    constructor() {
       owner = payable(msg.sender);
