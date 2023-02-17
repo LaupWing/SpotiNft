@@ -63,7 +63,7 @@ contract SpotiAlbum  is ERC721URIStorage{
    }
 
    function addSong(string memory uri) private {
-      uint256 id = songId.current();
+      uint256 id = songIds.current();
       songs[id] = SpotiSong(
          id,
          0,
