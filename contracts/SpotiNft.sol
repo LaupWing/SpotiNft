@@ -38,6 +38,12 @@ contract SpotiAlbum  is ERC721URIStorage{
       uint256 songId;
    }
 
+   event SongBought (
+      uint256 indexed songId,
+      address indexed buyer,
+      uint256 indexed total_bought
+   );
+
    constructor(
       string memory _name, 
       string memory _symbol,
@@ -59,7 +65,7 @@ contract SpotiAlbum  is ERC721URIStorage{
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, song.url);
       song.total_bought++;
-
+      emit SongBought(songId, msg.sender, song.total_bought);
    }
 
    function addSong(string memory uri) private {
