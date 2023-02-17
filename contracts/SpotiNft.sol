@@ -32,6 +32,7 @@ contract SpotiAlbum  is ERC721URIStorage{
       uint256 id;
       uint256 total_bought;
       string url;
+      uint256 timestamp;
    }
    struct SpotiSongBought {
       uint256 tokenId;
@@ -73,7 +74,8 @@ contract SpotiAlbum  is ERC721URIStorage{
       songs[id] = SpotiSong(
          id,
          0,
-         uri
+         uri,
+         block.timestamp
       );
       totalSongs.increment();
    }
@@ -84,7 +86,8 @@ contract SpotiAlbum  is ERC721URIStorage{
          songs[id] = SpotiSong(
             id,
             0,
-            _songs[i]
+            _songs[i],
+            block.timestamp
          );
          songIds.increment();
       }
