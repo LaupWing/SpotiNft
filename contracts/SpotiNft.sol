@@ -18,6 +18,7 @@ contract SpotiNftMarketplace {
    struct Artist {
       address artist_address;
       string name;
+      uint256 tokenId;
    }
 
    constructor() {
@@ -25,7 +26,7 @@ contract SpotiNftMarketplace {
    }
 
    function registerArtist() public{
-
+      tokenIds.increment();
    }
 }
 
