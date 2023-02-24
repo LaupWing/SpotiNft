@@ -28,11 +28,21 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       owner = payable(msg.sender);
    }
 
-   function registerArtist(string memory profilePic) public payable {
+   function registerArtist(
+      string memory profilePic,
+      string memory name
+   ) public payable {
       tokenIds.increment();
       uint256 newTokenId = tokenIds.current();
+
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, profilePic);
+
+      artists[msg.sender] = Artist(
+         msg.sender,
+         name,
+         newTokenId
+      );
    }
 }
 
