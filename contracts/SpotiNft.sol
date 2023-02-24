@@ -14,6 +14,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    SpotiAlbum[] public albums;
    mapping (address => Artist) artists;
 
+   modifier alreadyRegistered(){
+      _;
+   }
+
    
    struct Artist {
       address artist_address;
