@@ -14,7 +14,19 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    SpotiAlbum[] public albums;
    mapping (address => Artist) artists;
 
+   error SpotiNftMarketplace__AlreadyRegistered(
+      address artist_address,
+      bool created
+   );
+
    modifier alreadyRegistered(){
+      Artist memory _artist = artists[msg.sender]; 
+      if(_artist.created){
+         revert SpotiNftMarketplace__AlreadyRegistered(
+            msg.sender,
+            _artist.created
+         );
+      }
       _;
    }
 
@@ -23,6 +35,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       address artist_address;
       string name;
       uint256 tokenId;
+      bool created;
    }
 
    constructor() ERC721(
