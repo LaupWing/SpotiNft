@@ -86,13 +86,15 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string memory _name, 
       string memory _symbol,
       string memory _albumCover,
-      string[] memory _songs
+      string[] memory _song_uris,
+      uint256[] memory _song_prices
    ) public checkRegistration{
       address createdAlbum = address(new SpotiAlbum(
          _name,
          _symbol,
          _albumCover,
-         _songs
+         _song_uris,
+         _song_prices
       ));
       albums[createdAlbum] = msg.sender;
    }
@@ -115,8 +117,9 @@ contract SpotiAlbum is ERC721URIStorage{
 
    struct SpotiSong {
       uint256 id;
-      uint256 total_bought;
+      uint256 price;
       string url;
+      uint256 total_bought;
       uint256 timestamp;
    }
    struct SpotiSongBought {
@@ -127,7 +130,8 @@ contract SpotiAlbum is ERC721URIStorage{
    event SongBought (
       uint256 indexed songId,
       address indexed buyer,
-      uint256 indexed total_bought
+      uint256 indexed price,
+      uint256 total_bought
    );
 
    modifier onlyOwner(){
@@ -141,14 +145,15 @@ contract SpotiAlbum is ERC721URIStorage{
       string memory _name, 
       string memory _symbol,
       string memory _albumCover,
-      string[] memory _songs
+      string[] memory _song_uris,
+      uint256[] memory _song_prices
    ) ERC721(
       _name,
       _symbol
    ) {
       artist = payable(msg.sender);
       albumCover = _albumCover;
-      setSongs(_songs);
+      setSongs(_song_uris, _song_prices);
    }
 
    function buySong(uint256 songId) public payable {
@@ -158,31 +163,38 @@ contract SpotiAlbum is ERC721URIStorage{
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, song.url);
       song.total_bought++;
-      emit SongBought(songId, msg.sender, song.total_bought);
+      emit SongBought(
+         songId, 
+         msg.sender, 
+         song.price,
+         song.total_bought
+      );
    }
 
-   function addSong(string memory uri) private onlyOwner {
+   function addSong(string memory uri, uint256 price) private onlyOwner {
       uint256 id = songIds.current();
       songs[id] = SpotiSong(
          id,
-         0,
+         price,
          uri,
+         0,
          block.timestamp
       );
       totalSongs.increment();
    }
 
-   function setSongs(string[] memory _songs) internal onlyOwner {
-      for(uint256 i = 0; i < _songs.length; i++){
+   function setSongs(string[] memory song_uris, uint256[] memory song_prices) internal onlyOwner {
+      for(uint256 i = 0; i < song_uris.length; i++){
          uint256 id = songIds.current(); 
          songs[id] = SpotiSong(
             id,
+            song_prices[i],
+            song_uris[i],
             0,
-            _songs[i],
             block.timestamp
          );
          songIds.increment();
       }
-      totalSongs._value = _songs.length;
+      totalSongs._value = song_uris.length;
    }
 }
