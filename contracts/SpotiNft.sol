@@ -11,6 +11,11 @@ error SpotiNftMarketplace__AlreadyRegistered(
    bool created
 );
 
+error SpotiNftMarketplace__NotRegistered(
+   address artist_address,
+   bool created
+);
+
 contract SpotiNftMarketplace is ERC721URIStorage {
    using Counters for Counters.Counter;
 
@@ -24,6 +29,17 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
          revert SpotiNftMarketplace__AlreadyRegistered(
+            msg.sender,
+            _artist.created
+         );
+      }
+      _;
+   }
+
+   modifier checkRegistration(){
+      Artist memory _artist = artists[msg.sender]; 
+      if(!_artist.created){
+         revert SpotiNftMarketplace__NotRegistered(
             msg.sender,
             _artist.created
          );
@@ -66,6 +82,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
    function unregister() public {
       delete artists[msg.sender];
+   }
+
+   function createAlbum() public {
+
    }
 }
 
