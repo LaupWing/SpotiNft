@@ -6,6 +6,11 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
+error SpotiNftMarketplace__AlreadyRegistered(
+   address artist_address,
+   bool created
+);
+
 contract SpotiNftMarketplace is ERC721URIStorage {
    using Counters for Counters.Counter;
 
@@ -14,12 +19,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    SpotiAlbum[] public albums;
    mapping (address => Artist) artists;
 
-   error SpotiNftMarketplace__AlreadyRegistered(
-      address artist_address,
-      bool created
-   );
 
-   modifier checkRegistration(){
+   modifier alreadyRegistered(){
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
          revert SpotiNftMarketplace__AlreadyRegistered(
@@ -45,10 +46,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       owner = payable(msg.sender);
    }
 
-   function registerArtist(
+   function register(
       string memory profilePic,
       string memory name
-   ) public payable checkRegistration{
+   ) public payable alreadyRegistered{
       tokenIds.increment();
       uint256 newTokenId = tokenIds.current();
 
@@ -62,12 +63,16 @@ contract SpotiNftMarketplace is ERC721URIStorage {
          true
       );
    }
+
+   function unregister() public {
+      delete artists[msg.sender];
+   }
 }
 
+error SpotiAlbum__OnlyOwner();
 
 contract SpotiAlbum is ERC721URIStorage{
    address payable public artist;
-   string public artist;
    string public albumCover;
    mapping(uint256 => SpotiSong) public songs;
    mapping(uint256 => SpotiSongBought) public boughtSongs;
@@ -96,6 +101,13 @@ contract SpotiAlbum is ERC721URIStorage{
       uint256 indexed total_bought
    );
 
+   modifier onlyOwner(){
+      if(msg.sender != artist){
+         revert SpotiAlbum__OnlyOwner();
+      }
+      _;
+   }
+
    constructor(
       string memory _name, 
       string memory _symbol,
@@ -120,7 +132,7 @@ contract SpotiAlbum is ERC721URIStorage{
       emit SongBought(songId, msg.sender, song.total_bought);
    }
 
-   function addSong(string memory uri) private {
+   function addSong(string memory uri) private onlyOwner {
       uint256 id = songIds.current();
       songs[id] = SpotiSong(
          id,
@@ -131,7 +143,7 @@ contract SpotiAlbum is ERC721URIStorage{
       totalSongs.increment();
    }
 
-   function setSongs(string[] memory _songs) internal {
+   function setSongs(string[] memory _songs) internal onlyOwner {
       for(uint256 i = 0; i < _songs.length; i++){
          uint256 id = songIds.current(); 
          songs[id] = SpotiSong(
@@ -143,5 +155,9 @@ contract SpotiAlbum is ERC721URIStorage{
          songIds.increment();
       }
       totalSongs._value = _songs.length;
+   }
+
+   function remove() public payable{
+
    }
 }
