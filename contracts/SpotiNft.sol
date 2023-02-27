@@ -156,8 +156,4 @@ contract SpotiAlbum is ERC721URIStorage{
       }
       totalSongs._value = _songs.length;
    }
-
-   function remove() public payable{
-
-   }
 }
