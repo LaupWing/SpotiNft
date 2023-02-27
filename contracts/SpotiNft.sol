@@ -66,7 +66,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
 
 contract SpotiAlbum is ERC721URIStorage{
-   address payable public owner;
+   address payable public artist;
    string public artist;
    string public albumCover;
    mapping(uint256 => SpotiSong) public songs;
@@ -100,13 +100,12 @@ contract SpotiAlbum is ERC721URIStorage{
       string memory _name, 
       string memory _symbol,
       string memory _albumCover,
-      string[] memory _songs,
-      string memory _artist
+      string[] memory _songs
    ) ERC721(
       _name,
       _symbol
    ) {
-      owner = payable(msg.sender);
+      artist = payable(msg.sender);
       albumCover = _albumCover;
       setSongs(_songs);
    }
