@@ -19,7 +19,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       bool created
    );
 
-   modifier alreadyRegistered(){
+   modifier checkRegistration(){
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
          revert SpotiNftMarketplace__AlreadyRegistered(
@@ -48,7 +48,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    function registerArtist(
       string memory profilePic,
       string memory name
-   ) public payable {
+   ) public payable checkRegistration{
       tokenIds.increment();
       uint256 newTokenId = tokenIds.current();
 
@@ -58,7 +58,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       artists[msg.sender] = Artist(
          msg.sender,
          name,
-         newTokenId
+         newTokenId,
+         true
       );
    }
 }
