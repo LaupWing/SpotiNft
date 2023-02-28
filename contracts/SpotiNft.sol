@@ -23,6 +23,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    Counters.Counter private tokenIds;
    mapping(address => address) private albums;
    mapping(address => Artist) private artists;
+   address[] private artistsArray;
+
 
    modifier alreadyRegistered(){
       Artist memory _artist = artists[msg.sender]; 
@@ -76,6 +78,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
          newTokenId,
          true
       );
+      artistsArray.push(msg.sender);
    }
 
    function unregister() public checkRegistration{
