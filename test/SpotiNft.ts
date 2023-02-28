@@ -12,17 +12,15 @@ describe.only("SpotiNft", () => {
       return {
          owner,
          otherAccount,
-         // spotiNft
+         spotiNft
       }
    }
    describe("Deployment", function () {
       it("Should set the right unlockTime", async function () {
-         const { owner } = await loadFixture(
+         const { owner, spotiNft } = await loadFixture(
             deploySpotiNftFixture
          )
-
-         // console.log(owner)
-         // console.log(spotiNft)
+         expect(owner.address).equal(await spotiNft.owner())
       })
    })
 })

@@ -98,6 +98,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       ));
       albums[createdAlbum] = msg.sender;
    }
+
+   // function getAllArtists() public view returns(Artist[] memory){
+   //    Artist[] memory ret = new Artist[](artists.length);
+   // }
 }
 
 error SpotiAlbum__OnlyOwner();
