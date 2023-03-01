@@ -104,6 +104,11 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
    function getAllArtists() public view returns(Artist[] memory){
       Artist[] memory ret = new Artist[](artistsArray.length);
+
+      for (uint256 i = 0; i < artistsArray.length; i ++){
+         ret[i] = artists[artistsArray[i]];
+      }
+      return ret;
    }
 }
 
