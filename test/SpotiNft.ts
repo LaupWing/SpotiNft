@@ -1,6 +1,7 @@
 import { ethers } from "hardhat"
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
+import { SpotiNftMarketplace } from "../typechain-types"
 
 describe.only("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
@@ -30,30 +31,30 @@ describe.only("SpotiNft", () => {
    })
 
    describe("Registration", () => {
+      let _spotiNft:SpotiNftMarketplace
+      
       beforeEach(async () => {
          const { owner, spotiNft, account1, account2 } = await loadFixture(
             deploySpotiNftFixture
          )
 
-         spotiNft.connect(owner).register(
+         await spotiNft.connect(owner).register(
             "owner_profile",
             "owner_name"
          )
-         spotiNft.connect(account1).register(
+         await spotiNft.connect(account1).register(
             "account1_profile",
             "account1_name"
          )
-         spotiNft.connect(account2).register(
+         await spotiNft.connect(account2).register(
             "account2_profile",
             "account2_name"
          )
+         _spotiNft = spotiNft
       })
 
-      it.only("registers the users", async () => {
-         const { owner, spotiNft, account1, account2 } = await loadFixture(
-            deploySpotiNftFixture
-         )
-         console.log(await spotiNft.getAllArtists())
+      it("registers the users", async () => {
+         console.log(await _spotiNft!.getAllArtists())
       })
    })
 })
