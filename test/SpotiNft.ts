@@ -4,25 +4,54 @@ import { expect } from "chai"
 
 describe.only("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
-      const [owner, otherAccount] = await ethers.getSigners()
+      const [owner, account1, account2] = await ethers.getSigners()
 
       const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
       const spotiNft = await SpotiNft.deploy()
 
       return {
          owner,
-         otherAccount,
+         account1,
+         account2,
          spotiNft
       }
    }
-   describe("Deployment", function () {
-      it("Should set the right name and symbol", async function () {
+   describe("Deployment", () => {
+      it("Should set the right name and symbol", async () => {
          const { owner, spotiNft } = await loadFixture(
             deploySpotiNftFixture
          )
          
          expect(await spotiNft.owner()).equal(owner.address)
          expect(await spotiNft.symbol()).equal("SNFT")
+      })
+   })
+
+   describe("Registration", () => {
+      beforeEach(async () => {
+         const { spotiNft, account1, account2 } = await loadFixture(
+            deploySpotiNftFixture
+         )
+
+         spotiNft.register(
+            "owner_profile",
+            "owner_name"
+         )
+         spotiNft.connect(account1).register(
+            "account1_profile",
+            "account1_name"
+         )
+         spotiNft.connect(account2).register(
+            "account2_profile",
+            "account2_name"
+         )
+      })
+
+      it.only("test", async () => {
+         const { owner, spotiNft, account1, account2 } = await loadFixture(
+            deploySpotiNftFixture
+         )
+         console.log(await spotiNft.getAllArtists())
       })
    })
 })
