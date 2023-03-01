@@ -16,11 +16,13 @@ describe.only("SpotiNft", () => {
       }
    }
    describe("Deployment", function () {
-      it("Should set the right unlockTime", async function () {
+      it("Should set the right name and symbol", async function () {
          const { owner, spotiNft } = await loadFixture(
             deploySpotiNftFixture
          )
-         expect(owner.address).equal(await spotiNft.owner())
+         
+         expect(await spotiNft.owner()).equal(owner.address)
+         expect(await spotiNft.symbol()).equal("SNFT")
       })
    })
 })
