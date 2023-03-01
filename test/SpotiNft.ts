@@ -9,6 +9,8 @@ describe.only("SpotiNft", () => {
       const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
       const spotiNft = await SpotiNft.deploy()
 
+      await spotiNft.deployed()
+      
       return {
          owner,
          account1,
@@ -29,11 +31,11 @@ describe.only("SpotiNft", () => {
 
    describe("Registration", () => {
       beforeEach(async () => {
-         const { spotiNft, account1, account2 } = await loadFixture(
+         const { owner, spotiNft, account1, account2 } = await loadFixture(
             deploySpotiNftFixture
          )
 
-         spotiNft.register(
+         spotiNft.connect(owner).register(
             "owner_profile",
             "owner_name"
          )
@@ -47,7 +49,7 @@ describe.only("SpotiNft", () => {
          )
       })
 
-      it.only("test", async () => {
+      it.only("registers the users", async () => {
          const { owner, spotiNft, account1, account2 } = await loadFixture(
             deploySpotiNftFixture
          )
