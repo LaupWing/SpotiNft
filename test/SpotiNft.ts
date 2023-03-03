@@ -72,6 +72,15 @@ describe.only("SpotiNft", () => {
    })
 
    describe.only("Albums", () => {
+      const albumObject = {
+         name: "My First Album",
+         symbol: "MFA",
+         albumCover: "ipfscoverurl.png",
+         songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
+         songPrices: [1, 2, 3],
+         albumPrice: 10
+      }
+
       const registerSpotiNftFixture = async () =>{
          const [owner, account1, account2] = await ethers.getSigners()
 
