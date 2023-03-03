@@ -70,4 +70,34 @@ describe.only("SpotiNft", () => {
          expect(artists[2].artist_address).equal(account2.address)
       })
    })
+
+   describe.only("Albums", () => {
+      const registerSpotiNftFixture = async () =>{
+         const [owner, account1, account2] = await ethers.getSigners()
+
+         const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
+         const spotiNft = await SpotiNft.deploy()
+
+         await spotiNft.deployed()
+
+         await spotiNft.register(
+            "owner_profile",
+            "owner_name"
+         )
+         await spotiNft.connect(account1).register(
+            "account1_profile",
+            "account1_name"
+         )
+         return {
+            owner,
+            account1,
+            account2,
+            spotiNft
+         }
+      }
+
+      it("throws error when you create album when you are not registered", async () => {
+
+      })
+   }) 
 })
