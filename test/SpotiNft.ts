@@ -116,7 +116,7 @@ describe.only("SpotiNft", () => {
             albumObject.albumPrice
          )
 
-         // console.log(spotiNft.)
+         console.log(await spotiNft.myInfo())
       })
    }) 
 })
