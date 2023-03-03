@@ -25,7 +25,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    mapping(address => Artist) private artists;
    address[] private artistsArray;
 
-
    modifier alreadyRegistered(){
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
@@ -53,6 +52,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string name;
       uint256 tokenId;
       bool created;
+      address[] albums;
    }
 
    constructor() ERC721(
@@ -76,7 +76,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
          msg.sender,
          name,
          newTokenId,
-         true
+         true,
+         new address[](0)
       );
       artistsArray.push(msg.sender);
    }
