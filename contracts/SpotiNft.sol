@@ -90,14 +90,16 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string memory _symbol,
       string memory _albumCover,
       string[] memory _song_uris,
-      uint256[] memory _song_prices
+      uint256[] memory _song_prices,
+      uint256 _albumPrice
    ) public checkRegistration{
       address createdAlbum = address(new SpotiAlbum(
          _name,
          _symbol,
          _albumCover,
          _song_uris,
-         _song_prices
+         _song_prices,
+         _albumPrice
       ));
       albums[createdAlbum] = msg.sender;
    }
@@ -117,6 +119,7 @@ error SpotiAlbum__OnlyOwner();
 contract SpotiAlbum is ERC721URIStorage{
    address payable public artist;
    string public albumCover;
+   uint256 public albumPrice;
    mapping(uint256 => SpotiSong) public songs;
    mapping(uint256 => SpotiSongBought) public boughtSongs;
 
@@ -158,7 +161,8 @@ contract SpotiAlbum is ERC721URIStorage{
       string memory _symbol,
       string memory _albumCover,
       string[] memory _song_uris,
-      uint256[] memory _song_prices
+      uint256[] memory _song_prices,
+      uint256 _albumPrice
    ) ERC721(
       _name,
       _symbol
@@ -166,6 +170,7 @@ contract SpotiAlbum is ERC721URIStorage{
       artist = payable(msg.sender);
       albumCover = _albumCover;
       setSongs(_song_uris, _song_prices);
+      albumPrice = _albumPrice;
    }
 
    function buySong(uint256 songId) public payable {
