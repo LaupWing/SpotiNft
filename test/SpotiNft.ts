@@ -108,12 +108,15 @@ describe.only("SpotiNft", () => {
       it("throws error when you create album when you are not registered", async () => {
          const { spotiNft, account2} = await loadFixture(registerSpotiNftFixture)
          await spotiNft.createAlbum(
-            "Test",
-            "T",
-            "cover.png",
-            ["song1", "song2"],
-            [1, 2]
+            albumObject.name,
+            albumObject.symbol,
+            albumObject.albumCover,
+            albumObject.songUris,
+            albumObject.songPrices,
+            albumObject.albumPrice
          )
+
+         // console.log(spotiNft.)
       })
    }) 
 })
