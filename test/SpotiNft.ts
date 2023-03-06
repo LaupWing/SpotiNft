@@ -3,6 +3,14 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
 
 const EVENT_ALBUM_CREATED = "AlbumCreated"
+const ALBUM_OBJECT = {
+   name: "My First Album",
+   symbol: "MFA",
+   albumCover: "ipfscoverurl.png",
+   songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
+   songPrices: [1, 2, 3],
+   albumPrice: 10
+}
 
 describe.only("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
@@ -74,15 +82,6 @@ describe.only("SpotiNft", () => {
    })
 
    describe.only("Albums", () => {
-      const albumObject = {
-         name: "My First Album",
-         symbol: "MFA",
-         albumCover: "ipfscoverurl.png",
-         songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
-         songPrices: [1, 2, 3],
-         albumPrice: 10
-      }
-
       const registerSpotiNftFixture = async () =>{
          const [owner, account1, account2] = await ethers.getSigners()
 
@@ -110,19 +109,19 @@ describe.only("SpotiNft", () => {
       it("Emits event when new album is created", async () => {
          const { spotiNft } = await loadFixture(registerSpotiNftFixture)
          const transaction = await spotiNft.createAlbum(
-            albumObject.name,
-            albumObject.symbol,
-            albumObject.albumCover,
-            albumObject.songUris,
-            albumObject.songPrices,
-            albumObject.albumPrice
+            ALBUM_OBJECT.name,
+            ALBUM_OBJECT.symbol,
+            ALBUM_OBJECT.albumCover,
+            ALBUM_OBJECT.songUris,
+            ALBUM_OBJECT.songPrices,
+            ALBUM_OBJECT.albumPrice
          )
          const receipt = await transaction.wait()
          const albumAddress = receipt.events?.find(x => x.event === EVENT_ALBUM_CREATED)?.args![0]
          
          await expect(transaction)
             .to.emit(spotiNft, EVENT_ALBUM_CREATED)
-            .withArgs(albumAddress, albumObject.name)
+            .withArgs(albumAddress, ALBUM_OBJECT.name)
       })
    }) 
 })
