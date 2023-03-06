@@ -118,12 +118,14 @@ describe.only("SpotiNft", () => {
          )
          const receipt = await transaction.wait()
          const albumAddress = receipt.events?.find(x => x.event === EVENT_ALBUM_CREATED)?.args![0]
+         const spotiAlbum = await ethers.getContractAt("SpotiAlbum", albumAddress)
 
          return {
             albumAddress,
             receipt,
             spotiNft,
-            transaction
+            transaction,
+            spotiAlbum
          }
       }
 
@@ -136,10 +138,10 @@ describe.only("SpotiNft", () => {
       })
 
       it("registers album correctly", async () => {
-         const { albumAddress } = await useCreateAlbum()
-         const spotiAlbum = await ethers.getContractAt("SpotiAlbum", albumAddress)
+         const { spotiAlbum } = await useCreateAlbum()
          expect(await spotiAlbum.getName()).equal(ALBUM_OBJECT.name)
          expect(await spotiAlbum.getPrice()).equal(ALBUM_OBJECT.albumPrice)
+         expect((await spotiAlbum.getSongs()).length).equal(3)
       })
    }) 
 })
