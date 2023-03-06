@@ -245,7 +245,7 @@ contract SpotiAlbum is ERC721URIStorage{
       SpotiSong[] memory _songs = new SpotiSong[](totalSongs.current());
 
       for(uint256 i = 0; i < totalSongs.current(); i++){
-         // _songs[i] = songs[]
+         _songs[i] = songs[songsArray[i]];
       }
       return _songs;
    }
