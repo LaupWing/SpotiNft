@@ -137,6 +137,7 @@ contract SpotiAlbum is ERC721URIStorage{
    uint256 private albumPrice;
    mapping(uint256 => SpotiSong) private songs;
    mapping(uint256 => SpotiSongBought) private boughtSongs;
+   uint256[] songsArray;
 
    using Counters for Counters.Counter;
 
@@ -226,6 +227,7 @@ contract SpotiAlbum is ERC721URIStorage{
             0,
             block.timestamp
          );
+         songsArray.push(id);
          songIds.increment();
       }
       totalSongs._value = song_uris.length;
@@ -237,5 +239,14 @@ contract SpotiAlbum is ERC721URIStorage{
 
    function getPrice() public view returns(uint256){
       return albumPrice;
+   }
+
+   function getSongs() public view returns(SpotiSong[] memory) {
+      SpotiSong[] memory _songs = new SpotiSong[](totalSongs.current());
+
+      for(uint256 i = 0; i < totalSongs.current(); i++){
+         // _songs[i] = songs[]
+      }
+      return _songs;
    }
 }
