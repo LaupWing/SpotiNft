@@ -143,5 +143,9 @@ describe.only("SpotiNft", () => {
          expect(await spotiAlbum.getPrice()).equal(ALBUM_OBJECT.albumPrice)
          expect((await spotiAlbum.getSongs()).length).equal(3)
       })
+
+      it("registers album bought", async () => {
+         
+      })
    }) 
 })
