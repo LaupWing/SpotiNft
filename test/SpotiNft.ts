@@ -123,5 +123,9 @@ describe.only("SpotiNft", () => {
             .to.emit(spotiNft, EVENT_ALBUM_CREATED)
             .withArgs(albumAddress, ALBUM_OBJECT.name)
       })
+
+      it("registers album correctly", async () => {
+         
+      })
    }) 
 })
