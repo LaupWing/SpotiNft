@@ -110,7 +110,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       albums[createdAlbum] = msg.sender;
       Artist storage artist = artists[msg.sender];
       artist.albums.push(createdAlbum);
-      
+
       emit AlbumCreated(createdAlbum, _name);
    }
 
@@ -131,11 +131,12 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 error SpotiAlbum__OnlyOwner();
 
 contract SpotiAlbum is ERC721URIStorage{
-   address payable public artist;
-   string public albumCover;
-   uint256 public albumPrice;
-   mapping(uint256 => SpotiSong) public songs;
-   mapping(uint256 => SpotiSongBought) public boughtSongs;
+   address payable private artist;
+   string private albumCover;
+   string private albumName;
+   uint256 private albumPrice;
+   mapping(uint256 => SpotiSong) private songs;
+   mapping(uint256 => SpotiSongBought) private boughtSongs;
 
    using Counters for Counters.Counter;
 
@@ -181,6 +182,7 @@ contract SpotiAlbum is ERC721URIStorage{
       _name,
       _symbol
    ) {
+      albumName = _name;
       artist = payable(msg.sender);
       albumCover = _albumCover;
       setSongs(_song_uris, _song_prices);
@@ -227,5 +229,9 @@ contract SpotiAlbum is ERC721URIStorage{
          songIds.increment();
       }
       totalSongs._value = song_uris.length;
+   }
+
+   function getName() public view returns(string memory){
+      return albumName;
    }
 }
