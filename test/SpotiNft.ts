@@ -138,7 +138,8 @@ describe.only("SpotiNft", () => {
       it("registers album correctly", async () => {
          const { albumAddress } = await useCreateAlbum()
          const spotiAlbum = await ethers.getContractAt("SpotiAlbum", albumAddress)
-         // console.log(await spotiAlbum.name())
+         expect(await spotiAlbum.getName()).equal(ALBUM_OBJECT.name)
+         console.log()
       })
    }) 
 })

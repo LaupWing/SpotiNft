@@ -234,4 +234,8 @@ contract SpotiAlbum is ERC721URIStorage{
    function getName() public view returns(string memory){
       return albumName;
    }
+
+   function getPrice() public view returns(uint256){
+      return albumPrice;
+   }
 }
