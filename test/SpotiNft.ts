@@ -2,6 +2,8 @@ import { ethers } from "hardhat"
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
 
+const EVENT_ALBUM_CREATED = "AlbumCreated"
+
 describe.only("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
       const [owner, account1, account2] = await ethers.getSigners()
@@ -116,14 +118,11 @@ describe.only("SpotiNft", () => {
             albumObject.albumPrice
          )
          const receipt = await transaction.wait()
-         const albumAddress = receipt.events?.find(x => x.event === "AlbumCreated")?.args![0]
+         const albumAddress = receipt.events?.find(x => x.event === EVENT_ALBUM_CREATED)?.args![0]
          
          await expect(transaction)
-            .to.emit(spotiNft, "AlbumCreated")
-         // spotiNft.on("AlbumCreated", e => {
-         //    console.log("heh")
-         //    console.log(e)
-         // })
+            .to.emit(spotiNft, EVENT_ALBUM_CREATED)
+            .withArgs(albumAddress, albumObject.name)
       })
    }) 
 })
