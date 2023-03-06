@@ -106,7 +106,7 @@ describe.only("SpotiNft", () => {
          }
       }
 
-      it("Emits event when new album is created", async () => {
+      const useCreateAlbum = async () => {
          const { spotiNft } = await loadFixture(registerSpotiNftFixture)
          const transaction = await spotiNft.createAlbum(
             ALBUM_OBJECT.name,
@@ -118,6 +118,17 @@ describe.only("SpotiNft", () => {
          )
          const receipt = await transaction.wait()
          const albumAddress = receipt.events?.find(x => x.event === EVENT_ALBUM_CREATED)?.args![0]
+
+         return {
+            albumAddress,
+            receipt,
+            spotiNft,
+            transaction
+         }
+      }
+
+      it("Emits event when new album is created", async () => {
+         const { albumAddress, spotiNft, transaction } = await useCreateAlbum()
          
          await expect(transaction)
             .to.emit(spotiNft, EVENT_ALBUM_CREATED)
@@ -125,7 +136,9 @@ describe.only("SpotiNft", () => {
       })
 
       it("registers album correctly", async () => {
-         
+         const { albumAddress } = await useCreateAlbum()
+         const spotiAlbum = await ethers.getContractAt("SpotiAlbum", albumAddress)
+         console.log(await spotiAlbum.name())
       })
    }) 
 })
