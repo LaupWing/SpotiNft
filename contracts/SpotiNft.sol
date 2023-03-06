@@ -47,6 +47,11 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       _;
    }
 
+   event AlbumCreated (
+      address indexed album_address,
+      string indexed name
+   );
+
    struct Artist {
       address artist_address;
       string name;
@@ -105,6 +110,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       albums[createdAlbum] = msg.sender;
       Artist storage artist = artists[msg.sender];
       artist.albums.push(createdAlbum);
+      
+      emit AlbumCreated(createdAlbum, _name);
    }
 
    function getAllArtists() public view returns(Artist[] memory){

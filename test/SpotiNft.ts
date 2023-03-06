@@ -105,9 +105,9 @@ describe.only("SpotiNft", () => {
          }
       }
 
-      it("throws error when you create album when you are not registered", async () => {
+      it("Emits event when new album is created", async () => {
          const { spotiNft } = await loadFixture(registerSpotiNftFixture)
-         await spotiNft.createAlbum(
+         const transaction = await spotiNft.createAlbum(
             albumObject.name,
             albumObject.symbol,
             albumObject.albumCover,
@@ -115,6 +115,15 @@ describe.only("SpotiNft", () => {
             albumObject.songPrices,
             albumObject.albumPrice
          )
+         const receipt = await transaction.wait()
+         const albumAddress = receipt.events?.find(x => x.event === "AlbumCreated")?.args![0]
+         
+         await expect(transaction)
+            .to.emit(spotiNft, "AlbumCreated")
+         // spotiNft.on("AlbumCreated", e => {
+         //    console.log("heh")
+         //    console.log(e)
+         // })
       })
    }) 
 })
