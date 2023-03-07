@@ -130,6 +130,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
 error SpotiAlbum__OnlyOwner();
 error SpotiAlbum__NotEoughEthSendAlbum();
+error SpotiAlbum__AlbumAlreadyBought();
 
 contract SpotiAlbum is ERC721URIStorage{
    address payable private artist;
@@ -174,9 +175,9 @@ contract SpotiAlbum is ERC721URIStorage{
       }
       _;
    }
-   modifier onlyOwner(){
-      if(msg.sender != artist){
-         revert SpotiAlbum__OnlyOwner();
+   modifier albumAlreadyBought(){
+      if(albumOwners[msg.sender] != 0){
+         revert SpotiAlbum__AlbumAlreadyBought();
       }
       _;
    }
