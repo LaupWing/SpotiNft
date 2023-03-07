@@ -144,8 +144,8 @@ contract SpotiAlbum is ERC721URIStorage{
 
    using Counters for Counters.Counter;
 
-   Counters.Counter private tokenIds;
-   Counters.Counter private itemsSold;
+   Counters.Counter private songBoughtId;
+   Counters.Counter private songsSold;
    Counters.Counter private songIds;
    Counters.Counter private totalSongs;
    Counters.Counter private albumBought;
@@ -201,8 +201,8 @@ contract SpotiAlbum is ERC721URIStorage{
    }
 
    function buySong(uint256 songId) public payable {
-      tokenIds.increment();
-      uint256 newTokenId = tokenIds.current();
+      songBoughtId.increment();
+      uint256 newTokenId = songBoughtId.current();
       SpotiSong storage song = songs[songId];
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, song.url);
@@ -264,5 +264,7 @@ contract SpotiAlbum is ERC721URIStorage{
       if(msg.value < albumPrice){
          revert SpotiAlbum__NotEoughEthSendAlbum();
       }
+      
+      albumOwners[msg.sender] = 1;
    }
 }
