@@ -149,7 +149,6 @@ contract SpotiAlbum is ERC721URIStorage{
    Counters.Counter private songsSold;
    Counters.Counter private songIds;
    Counters.Counter private totalSongs;
-   Counters.Counter private albumBought;
 
    struct SpotiSong {
       uint256 id;
@@ -268,5 +267,9 @@ contract SpotiAlbum is ERC721URIStorage{
       albumBoughtId.increment();
       uint256 newTokenId = albumBoughtId.current();
       albumOwners[msg.sender] = newTokenId;
+   }
+
+   function getAlbumOwners() public payable {
+
    }
 }
