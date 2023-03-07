@@ -138,6 +138,7 @@ contract SpotiAlbum is ERC721URIStorage{
    uint256 private albumPrice;
    mapping(uint256 => SpotiSong) private songs;
    mapping(uint256 => SpotiSongBought) private boughtSongs;
+   mapping(address => uint256) private albumOwners;
    uint256[] songsArray;
 
    using Counters for Counters.Counter;
@@ -167,6 +168,12 @@ contract SpotiAlbum is ERC721URIStorage{
       uint256 total_bought
    );
 
+   modifier onlyOwner(){
+      if(msg.sender != artist){
+         revert SpotiAlbum__OnlyOwner();
+      }
+      _;
+   }
    modifier onlyOwner(){
       if(msg.sender != artist){
          revert SpotiAlbum__OnlyOwner();
