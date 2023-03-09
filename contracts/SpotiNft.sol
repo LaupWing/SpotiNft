@@ -126,11 +126,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    function myInfo() public view returns(Artist memory) {
       return artists[msg.sender];
    }
-
-   function buyAlbum(address _albumAddress) public payable {
-      SpotiAlbum spotiAlbum = SpotiAlbum(_albumAddress);
-      spotiAlbum.buyAlbum(msg.value, msg.sender);
-   }
 }
 
 error SpotiAlbum__OnlyOwner();
@@ -274,16 +269,13 @@ contract SpotiAlbum is ERC721URIStorage{
       return _songs;
    }
 
-   function buyAlbum(
-      uint256 _value,
-      address _buyer
-   ) public payable {
-      if(_value < albumPrice){
+   function buyAlbum() public payable {
+      if(msg.value < albumPrice){
          revert SpotiAlbum__NotEoughEthSendAlbum();
       }
       albumBoughtId.increment();
       uint256 newTokenId = albumBoughtId.current();
-      albumOwnersToAlbumBoughtId[_buyer] = newTokenId;
+      albumOwnersToAlbumBoughtId[msg.sender] = newTokenId;
    }
 
    struct AlbumOwner {
