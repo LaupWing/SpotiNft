@@ -158,6 +158,7 @@ contract SpotiAlbum is ERC721URIStorage{
       string url;
       uint256 total_bought;
       uint256 timestamp;
+      address[] owners;
    }
    struct SpotiSongBought {
       uint256 tokenId;
@@ -213,9 +214,12 @@ contract SpotiAlbum is ERC721URIStorage{
       songBoughtId.increment();
       uint256 newTokenId = songBoughtId.current();
       SpotiSong storage song = songs[songId];
+
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, song.url);
+      songs.owners.push(msg.sender);
       song.total_bought++;
+
       emit SongBought(
          songId, 
          msg.sender, 
@@ -231,7 +235,8 @@ contract SpotiAlbum is ERC721URIStorage{
          price,
          uri,
          0,
-         block.timestamp
+         block.timestamp,
+         new address[](0)
       );
       totalSongs.increment();
    }
@@ -244,7 +249,8 @@ contract SpotiAlbum is ERC721URIStorage{
             song_prices[i],
             song_uris[i],
             0,
-            block.timestamp
+            block.timestamp,
+            new address[](0)
          );
          songsArray.push(id);
          songIds.increment();
