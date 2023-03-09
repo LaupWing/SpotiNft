@@ -217,7 +217,7 @@ contract SpotiAlbum is ERC721URIStorage{
 
       _safeMint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, song.url);
-      songs.owners.push(msg.sender);
+      song.owners.push(msg.sender);
       song.total_bought++;
 
       emit SongBought(
