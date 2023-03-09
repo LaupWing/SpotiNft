@@ -139,7 +139,7 @@ contract SpotiAlbum is ERC721URIStorage{
    uint256 private albumPrice;
    mapping(uint256 => SpotiSong) private songs;
    mapping(uint256 => SpotiSongBought) private boughtSongs;
-   mapping(address => uint256) private albumOwners;
+   mapping(address => uint256) private albumOwnersToAlbumBoughtId;
    uint256[] songsArray;
    address[] albumOwnersArray;
 
@@ -177,14 +177,14 @@ contract SpotiAlbum is ERC721URIStorage{
       _;
    }
    modifier albumAlreadyBought(){
-      if(albumOwners[msg.sender] != 0){
+      if(albumOwnersToAlbumBoughtId[msg.sender] != 0){
          revert SpotiAlbum__AlbumAlreadyBought();
       }
       _;
    }
 
    modifier isAlbumOwner(){
-      if(albumOwners[msg.sender] != 0){
+      if(albumOwnersToAlbumBoughtId[msg.sender] != 0){
          revert SpotiAlbum__AlbumAlreadyBought();
       }
       _;
@@ -274,7 +274,7 @@ contract SpotiAlbum is ERC721URIStorage{
       }
       albumBoughtId.increment();
       uint256 newTokenId = albumBoughtId.current();
-      albumOwners[msg.sender] = newTokenId;
+      albumOwnersToAlbumBoughtId[msg.sender] = newTokenId;
    }
 
    struct AlbumOwner {
@@ -286,7 +286,7 @@ contract SpotiAlbum is ERC721URIStorage{
 
       for(uint256 i = 0; i < albumOwnersArray.length; i ++){
          _ablumOwners[i] = AlbumOwner(
-            albumOwners[albumOwnersArray[i]],
+            albumOwnersToAlbumBoughtId[albumOwnersArray[i]],
             albumOwnersArray[i]
          );
       }
