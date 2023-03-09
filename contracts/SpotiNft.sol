@@ -294,4 +294,8 @@ contract SpotiAlbum is ERC721URIStorage{
 
       return _ablumOwners;
    }
+
+   function getAlbumOwner() public view returns(bool){
+      return albumOwnersToAlbumBoughtId[msg.sender] > 0;
+   }
 }
