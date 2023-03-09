@@ -282,7 +282,7 @@ contract SpotiAlbum is ERC721URIStorage{
       uint256 albumBoughtId;
       address owner;
    }
-   function getAlbumOwners() public payable returns(AlbumOwner[] memory) {
+   function getAlbumOwners() public view returns(AlbumOwner[] memory) {
       AlbumOwner[] memory _ablumOwners = new AlbumOwner[](albumOwnersArray.length);
 
       for(uint256 i = 0; i < albumOwnersArray.length; i ++){
