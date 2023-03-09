@@ -183,6 +183,13 @@ contract SpotiAlbum is ERC721URIStorage{
       _;
    }
 
+   modifier isAlbumOwner(){
+      if(albumOwners[msg.sender] != 0){
+         revert SpotiAlbum__AlbumAlreadyBought();
+      }
+      _;
+   }
+
    constructor(
       string memory _name, 
       string memory _symbol,
