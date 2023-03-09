@@ -141,6 +141,7 @@ contract SpotiAlbum is ERC721URIStorage{
    mapping(uint256 => SpotiSongBought) private boughtSongs;
    mapping(address => uint256) private albumOwners;
    uint256[] songsArray;
+   address[] albumOwnersArray;
 
    using Counters for Counters.Counter;
 
@@ -269,7 +270,20 @@ contract SpotiAlbum is ERC721URIStorage{
       albumOwners[msg.sender] = newTokenId;
    }
 
-   function getAlbumOwners() public payable {
+   struct AlbumOwner {
+      uint256 albumBoughtId;
+      address owner;
+   }
+   function getAlbumOwners() public payable returns(AlbumOwner[] memory) {
+      AlbumOwner[] memory _ablumOwners = new AlbumOwner[](albumOwnersArray.length);
 
+      for(uint256 i = 0; i < albumOwnersArray.length; i ++){
+         _ablumOwners[i] = AlbumOwner(
+            albumOwners[albumOwnersArray[i]],
+            albumOwnersArray[i]
+         );
+      }
+
+      return _ablumOwners;
    }
 }
