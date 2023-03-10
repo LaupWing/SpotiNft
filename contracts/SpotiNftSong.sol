@@ -9,14 +9,25 @@ contract SpotiNftSong is ERC721{
 
    string private uri;
    string private name;
+   uint256 private mintFee;
    address album;
 
    constructor(
       string memory _uri,
-      string memory _name
+      string memory _name,
+      uint256 _mintFee
    ) ERC721("SpotiSong", "SONG"){
       album = msg.sender;
       uri = _uri;
       name = _name;
+      mintFee = _mintFee;
+   }
+
+   function mintSong() public payable {
+
+   }
+
+   function getTokenUri() public view returns(string memory){
+      return uri;
    }
 }
