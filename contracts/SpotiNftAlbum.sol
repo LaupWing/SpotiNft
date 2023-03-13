@@ -18,6 +18,7 @@ contract SpotiAlbum is ERC721{
    address[] private owners;
    address private owner;
    address[] private song_addresses;
+   SpotiNftSong[] private song_nfts;
    mapping(address => SpotiSong ) address_to_song;
 
    struct SpotiSong {
@@ -39,7 +40,7 @@ contract SpotiAlbum is ERC721{
       uint256 _mintFee,
       string[] memory _song_uris,
       string[] memory _song_names,
-      uint256[] memory _song_prices
+      uint256 _song_price
    ) ERC721("SpotiAlbum", "ALBUM"){
       owner = msg.sender;
       uri = _uri;
@@ -83,6 +84,11 @@ contract SpotiAlbum is ERC721{
       uint256 song_price
    ) internal onlyOwner {
       for(uint256 i = 0; i < _song_uris.length; i++){
+         SpotiNftSong newSpotiNFtSong = new SpotiNftSong(
+            _song_uris[i],
+            _song_names[i],
+            song_price
+         );
       //    uint256 id = songIds.current(); 
       //    songs[id] = SpotiSong(
       //       id,
