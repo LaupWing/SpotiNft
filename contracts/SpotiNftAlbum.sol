@@ -21,7 +21,9 @@ contract SpotiAlbum is ERC721{
    constructor(
       string memory _uri,
       string memory _name,
-      uint256 _mintFee
+      uint256 _mintFee,
+      string[] memory _song_uris,
+      uint256[] memory _song_prices
    ) ERC721("SpotiAlbum", "ALBUM"){
       owner = msg.sender;
       uri = _uri;
@@ -57,5 +59,22 @@ contract SpotiAlbum is ERC721{
 
    function getMintFee() public view returns(uint256){
       return mintFee;
+   }
+
+   function setSongs(string[] memory song_uris, uint256[] memory song_prices) internal onlyOwner {
+      for(uint256 i = 0; i < song_uris.length; i++){
+         uint256 id = songIds.current(); 
+         songs[id] = SpotiSong(
+            id,
+            song_prices[i],
+            song_uris[i],
+            0,
+            block.timestamp,
+            new address[](0)
+         );
+         songsArray.push(id);
+         songIds.increment();
+      }
+      totalSongs._value = song_uris.length;
    }
 }
