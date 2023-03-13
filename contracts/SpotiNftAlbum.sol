@@ -17,7 +17,8 @@ contract SpotiAlbum is ERC721{
    uint256 private mintFee;
    address[] private owners;
    address private owner;
-   SpotiNftSong[] private songs;
+   address[] private song_addresses;
+   mapping(address => ) address_to_song;
 
    modifier onlyOwner(){
       if(msg.sender != owner){
@@ -75,7 +76,7 @@ contract SpotiAlbum is ERC721{
       string[] memory _song_names, 
       uint256 song_price
    ) internal onlyOwner {
-      // for(uint256 i = 0; i < song_uris.length; i++){
+      for(uint256 i = 0; i < _song_uris.length; i++){
       //    uint256 id = songIds.current(); 
       //    songs[id] = SpotiSong(
       //       id,
@@ -87,7 +88,7 @@ contract SpotiAlbum is ERC721{
       //    );
       //    songsArray.push(id);
       //    songIds.increment();
-      // }
+      }
       // totalSongs._value = song_uris.length;
    }
 }
