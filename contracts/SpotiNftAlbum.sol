@@ -17,15 +17,8 @@ contract SpotiAlbum is ERC721{
    uint256 private mintFee;
    address[] private owners;
    address private owner;
-   address[] private song_addresses;
    SpotiNftSong[] private song_nfts;
-   mapping(address => SpotiSong ) address_to_song;
-
-   struct SpotiSong {
-      string name;
-      string url;
-      uint256 timestamp;
-   }
+   mapping(address => SpotiNftSong ) address_to_song;
 
    modifier onlyOwner(){
       if(msg.sender != owner){
@@ -90,13 +83,7 @@ contract SpotiAlbum is ERC721{
             song_price
          );
          address new_address = address(newSpotiNFtSong);
-         song_addresses.push(new_address);
-         address_to_song[new_address] = SpotiSong(
-            _song_uris[i],
-            _song_names[i],
-            block.timestamp
-         ); 
-         song_nfts.push(newSpotiNFtSong);
+         address_to_song[new_address] = newSpotiNFtSong;
       //    uint256 id = songIds.current(); 
       //    songs[id] = SpotiSong(
       //       id,
@@ -110,5 +97,13 @@ contract SpotiAlbum is ERC721{
       //    songIds.increment();
       }
       // totalSongs._value = song_uris.length;
+   }
+
+   function getSongsAddresses() public view returns(address[] memory){
+      address[] memory _songs = new address[](song_nfts.length);
+
+      for(uint256 i = 0; i < song_nfts.length; i++){
+         _songs[i] = address(song_nfts[i]);
+      }
    }
 }
