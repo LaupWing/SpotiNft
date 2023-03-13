@@ -89,6 +89,14 @@ contract SpotiAlbum is ERC721{
             _song_names[i],
             song_price
          );
+         address new_address = address(newSpotiNFtSong);
+         song_addresses.push(new_address);
+         address_to_song[new_address] = SpotiSong(
+            _song_uris[i],
+            _song_names[i],
+            block.timestamp
+         ); 
+         song_nfts.push(newSpotiNFtSong);
       //    uint256 id = songIds.current(); 
       //    songs[id] = SpotiSong(
       //       id,
