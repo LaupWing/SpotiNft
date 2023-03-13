@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./SpotiNftSong.sol";
 
 error SpotiAlbum__NotEoughEthSend();
 
@@ -15,6 +16,7 @@ contract SpotiAlbum is ERC721{
    uint256 private mintFee;
    address[] private owners;
    address private owner;
+   SpotiNftSong[] private songs;
 
    constructor(
       string memory _uri,
