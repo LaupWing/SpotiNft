@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./SpotiNftSong.sol";
 
 error SpotiAlbum__NotEoughEthSend();
+error SpotiAlbum__OnlyOwner();
 
 contract SpotiAlbum is ERC721{
    using Counters for Counters.Counter;
@@ -17,6 +18,13 @@ contract SpotiAlbum is ERC721{
    address[] private owners;
    address private owner;
    SpotiNftSong[] private songs;
+
+   modifier onlyOwner(){
+      if(msg.sender != artist){
+         revert SpotiAlbum__OnlyOwner();
+      }
+      _;
+   }
 
    constructor(
       string memory _uri,
