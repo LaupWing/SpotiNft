@@ -20,7 +20,7 @@ contract SpotiAlbum is ERC721{
    SpotiNftSong[] private songs;
 
    modifier onlyOwner(){
-      if(msg.sender != artist){
+      if(msg.sender != owner){
          revert SpotiAlbum__OnlyOwner();
       }
       _;
@@ -31,6 +31,7 @@ contract SpotiAlbum is ERC721{
       string memory _name,
       uint256 _mintFee,
       string[] memory _song_uris,
+      string[] memory _song_names,
       uint256[] memory _song_prices
    ) ERC721("SpotiAlbum", "ALBUM"){
       owner = msg.sender;
@@ -69,20 +70,24 @@ contract SpotiAlbum is ERC721{
       return mintFee;
    }
 
-   function setSongs(string[] memory song_uris, uint256[] memory song_prices) internal onlyOwner {
-      for(uint256 i = 0; i < song_uris.length; i++){
-         uint256 id = songIds.current(); 
-         songs[id] = SpotiSong(
-            id,
-            song_prices[i],
-            song_uris[i],
-            0,
-            block.timestamp,
-            new address[](0)
-         );
-         songsArray.push(id);
-         songIds.increment();
-      }
-      totalSongs._value = song_uris.length;
+   function setSongs(
+      string[] memory _song_uris, 
+      string[] memory _song_names, 
+      uint256 song_price
+   ) internal onlyOwner {
+      // for(uint256 i = 0; i < song_uris.length; i++){
+      //    uint256 id = songIds.current(); 
+      //    songs[id] = SpotiSong(
+      //       id,
+      //       song_prices[i],
+      //       song_uris[i],
+      //       0,
+      //       block.timestamp,
+      //       new address[](0)
+      //    );
+      //    songsArray.push(id);
+      //    songIds.increment();
+      // }
+      // totalSongs._value = song_uris.length;
    }
 }
