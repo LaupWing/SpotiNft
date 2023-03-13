@@ -18,7 +18,13 @@ contract SpotiAlbum is ERC721{
    address[] private owners;
    address private owner;
    address[] private song_addresses;
-   mapping(address => ) address_to_song;
+   mapping(address => SpotiSong ) address_to_song;
+
+   struct SpotiSong {
+      string name;
+      string url;
+      uint256 timestamp;
+   }
 
    modifier onlyOwner(){
       if(msg.sender != owner){
