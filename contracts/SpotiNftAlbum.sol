@@ -87,6 +87,13 @@ contract SpotiAlbum is ERC721{
       }
    }
 
+   function buySong(
+      address _spotiNftAddress
+   ) public{
+      SpotiNftSong song = address_to_song[_spotiNftAddress];
+      song.mintSong();
+   }
+
    function getSongsAddresses() public view returns(address[] memory){
       address[] memory _songs = new address[](song_nfts.length);
 

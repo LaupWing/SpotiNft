@@ -27,14 +27,14 @@ contract SpotiNftSong is ERC721{
       mintFee = _mintFee;
    }
 
-   function mintSong() public payable {
-      if(msg.value < mintFee){
+   function mintSong(address buyer, uint256 eth) public payable {
+      if(eth < mintFee){
          revert SpotiNftSong__NotEoughEthSend();
       }
       tokenId.increment();
       uint256 newTokenId = tokenId.current();
-      _safeMint(msg.sender, newTokenId);
-      owners.push(msg.sender);
+      _safeMint(buyer, newTokenId);
+      owners.push(buyer);
    }
 
    function getUri() public view returns(string memory){
