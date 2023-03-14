@@ -16,6 +16,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    Counters.Counter private tokenIds;
 
    address payable public owner;
+   mapping(address => address) private albums;
+   mapping(address => Artist) private artists;
+   address[] private artistsArray;
+
    struct Artist {
       address artist_address;
       string name;
@@ -40,5 +44,25 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       "SNFT"
    ){
       owner = payable(msg.sender);
+   }
+
+   function register(
+      string memory profilePic,
+      string memory name
+   ) public payable alreadyRegistered{
+      tokenIds.increment();
+      uint256 newTokenId = tokenIds.current();
+
+      _safeMint(msg.sender, newTokenId);
+      _setTokenURI(newTokenId, profilePic);
+
+      artists[msg.sender] = Artist(
+         msg.sender,
+         name,
+         newTokenId,
+         true,
+         new address[](0)
+      );
+      artistsArray.push(msg.sender);
    }
 }
