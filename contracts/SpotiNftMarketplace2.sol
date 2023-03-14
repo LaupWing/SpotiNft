@@ -13,7 +13,7 @@ error SpotiNftMarketplace__AlreadyRegistered(
 
 contract SpotiNftMarketplace is ERC721URIStorage {
    using Counters for Counters.Counter;
-   Counters.Counter private tokenIds;
+   Counters.Counter private token_ids;
 
    address payable public owner;
    mapping(address => address) private albums;
@@ -27,6 +27,17 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       bool created;
       address[] albums;
    }
+
+   event AlbumCreated (
+      address indexed album_address,
+      string indexed name
+   );
+
+   event ArtistCreated (
+      address indexed artist_address,
+      uint256 indexed token_id,
+      string indexed name
+   );
 
    modifier alreadyRegistered(){
       Artist memory _artist = artists[msg.sender]; 
@@ -50,16 +61,16 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string memory profilePic,
       string memory name
    ) public payable alreadyRegistered{
-      tokenIds.increment();
-      uint256 newTokenId = tokenIds.current();
+      token_ids.increment();
+      uint256 new_token_id = token_ids.current();
 
-      _safeMint(msg.sender, newTokenId);
-      _setTokenURI(newTokenId, profilePic);
+      _safeMint(msg.sender, new_token_id);
+      _setTokenURI(new_token_id, profilePic);
 
       artists[msg.sender] = Artist(
          msg.sender,
          name,
-         newTokenId,
+         new_token_id,
          true,
          new address[](0)
       );
