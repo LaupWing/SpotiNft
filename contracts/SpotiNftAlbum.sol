@@ -8,7 +8,7 @@ import "./SpotiNftSong.sol";
 error SpotiAlbum__NotEoughEthSend();
 error SpotiAlbum__OnlyOwner();
 
-contract SpotiAlbum is ERC721{
+contract SpotiNftAlbum is ERC721{
    using Counters for Counters.Counter;
    Counters.Counter private tokenId;
 

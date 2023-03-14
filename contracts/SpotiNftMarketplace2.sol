@@ -5,8 +5,14 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "./SpotiNftAlbum.sol";
 
 error SpotiNftMarketplace__AlreadyRegistered(
+   address artist_address,
+   bool created
+);
+
+error SpotiNftMarketplace__NotRegistered(
    address artist_address,
    bool created
 );
@@ -43,6 +49,17 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
          revert SpotiNftMarketplace__AlreadyRegistered(
+            msg.sender,
+            _artist.created
+         );
+      }
+      _;
+   }
+
+   modifier checkRegistration(){
+      Artist memory _artist = artists[msg.sender]; 
+      if(!_artist.created){
+         revert SpotiNftMarketplace__NotRegistered(
             msg.sender,
             _artist.created
          );
@@ -93,5 +110,28 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
    function myInfo() public view returns(Artist memory) {
       return artists[msg.sender];
+   }
+
+   function createAlbum(
+      string memory _name, 
+      string memory _symbol,
+      string memory _albumCover,
+      string[] memory _song_uris,
+      uint256[] memory _song_prices,
+      uint256 _albumPrice
+   ) public checkRegistration{
+      address createdAlbum = address(new SpotiNftAlbum(
+         _name,
+         _symbol,
+         _albumCover,
+         _song_uris,
+         _song_prices,
+         _albumPrice
+      ));
+      albums[createdAlbum] = msg.sender;
+      Artist storage artist = artists[msg.sender];
+      artist.albums.push(createdAlbum);
+
+      emit AlbumCreated(createdAlbum, _name);
    }
 }
