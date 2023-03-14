@@ -25,7 +25,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    mapping(address => address) private albums;
    mapping(address => Artist) private artists;
    address[] private artistsArray;
-   address[] private albumsArray;
+   SpotiNftAlbum[] private albumsArray;
 
    struct Artist {
       address artist_address;
@@ -121,18 +121,19 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       uint256 _song_price,
       uint256 _album_price
    ) public checkRegistration{
-      address createdAlbum = address(new SpotiNftAlbum(
+      SpotiNftAlbum createdAlbum = new SpotiNftAlbum(
          _name,
          _cover_uri,
          _album_price,
          _song_uris,
          _song_names,
          _song_price
-      ));
-      albums[createdAlbum] = msg.sender;
+      );
+      address created_album_address = address(createdAlbum);
+      albums[created_album_address] = msg.sender;
       Artist storage artist = artists[msg.sender];
-      artist.albums.push(createdAlbum);
-      
-      emit AlbumCreated(createdAlbum, _name);
+      artist.albums.push(address(createdAlbum));
+
+      emit AlbumCreated(created_album_address, _name);
    }
 }
