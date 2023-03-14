@@ -113,20 +113,20 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    }
 
    function createAlbum(
-      string memory _name, 
-      string memory _symbol,
-      string memory _albumCover,
+      string memory _name,
+      string memory _cover_uri,
       string[] memory _song_uris,
-      uint256[] memory _song_prices,
-      uint256 _albumPrice
+      uint256[] memory _song_names,
+      uint256 _song_price,
+      uint256 _album_price
    ) public checkRegistration{
       address createdAlbum = address(new SpotiNftAlbum(
          _name,
-         _symbol,
-         _albumCover,
+         _cover_uri,
          _song_uris,
-         _song_prices,
-         _albumPrice
+         _song_names,
+         _song_price,
+         _album_price
       ));
       albums[createdAlbum] = msg.sender;
       Artist storage artist = artists[msg.sender];
