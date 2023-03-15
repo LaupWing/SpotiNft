@@ -44,6 +44,20 @@ describe.only("SpotiNft", () => {
    })
 
    describe("Artist registration", () => {
+      const registerFixture = async () => {
+         const { spotiNft, owner } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         return {
+            spotiNft,
+            owner,
+            transaction
+         }
+      }
       it("Should register user correctly", async () => {
          const { spotiNft } = await loadFixture(
             deploySpotiNftFixture
@@ -58,13 +72,9 @@ describe.only("SpotiNft", () => {
 
       it("Should emit an event when register correctly", async () => {
          const event_name = "ArtistCreated"
-         const { spotiNft, owner } = await loadFixture(
-            deploySpotiNftFixture
+         const { spotiNft, owner, transaction } = await loadFixture(
+            registerFixture
          )  
-         const transaction = await spotiNft.register(
-            ARTIST_1.profile_pic, 
-            ARTIST_1.name
-         )
          const transaction_receipt = await transaction.wait()
          const event_args = transaction_receipt.events?.find(x => x.event === event_name)?.args! 
          const token_id = event_args[1].toString() 
