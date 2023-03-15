@@ -8,6 +8,7 @@ const ALBUM_OBJECT = {
    symbol: "MFA",
    albumCover: "ipfscoverurl.png",
    songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
+   songNames: ["Your mom", "Is fking", "Awesome"],
    songPrice: 1,
    albumPrice: 10
 }
@@ -111,6 +112,40 @@ describe.only("SpotiNft", () => {
          expect(artist.tokenId.toString()).to.equal("1")
          expect(artist.name).to.equal(ARTIST_1.name)
          expect(await spotiNft.tokenURI(1)).to.equal(ARTIST_1.profile_pic)
+      })
+   })
+
+   describe("Albums", () => {
+      const registerFixture = async () => {
+         const { spotiNft, owner } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         await transaction.wait()
+         return {
+            spotiNft,
+            owner
+         }
+      }
+
+      it("Should allow the artist to create an album", async () => {
+         const {
+            spotiNft
+         } = await loadFixture(registerFixture)
+
+         await spotiNft.createAlbum(
+            ALBUM_OBJECT.name,
+            ALBUM_OBJECT.albumCover,
+            ALBUM_OBJECT.albumPrice,
+            ALBUM_OBJECT.songUris,
+            ALBUM_OBJECT.songNames,
+            ALBUM_OBJECT.songPrice
+         )
+
+         // console.log(spotiNft.)
       })
    })
 })

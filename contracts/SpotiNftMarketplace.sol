@@ -116,10 +116,10 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    function createAlbum(
       string memory _name,
       string memory _cover_uri,
+      uint256 _album_price,
       string[] memory _song_uris,
       string[] memory _song_names,
-      uint256 _song_price,
-      uint256 _album_price
+      uint256 _song_price
    ) public checkRegistration{
       SpotiNftAlbum createdAlbum = new SpotiNftAlbum(
          _name,
@@ -136,4 +136,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
       emit AlbumCreated(created_album_address, _name);
    }
+
+   function getAlbums() public view returns()
 }
