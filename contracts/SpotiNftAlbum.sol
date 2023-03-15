@@ -37,6 +37,7 @@ contract SpotiNftAlbum is ERC721{
       owner = msg.sender;
       cover_uri = _cover_uri;
       mintFee = _mintFee;
+      setSongs(_song_uris, _song_names, _song_price);
    }
 
    function mintAlbum() public payable {
@@ -72,13 +73,13 @@ contract SpotiNftAlbum is ERC721{
    function setSongs(
       string[] memory _song_uris, 
       string[] memory _song_names, 
-      uint256 song_price
+      uint256 _song_price
    ) internal onlyOwner {
       for(uint256 i = 0; i < _song_uris.length; i++){
          SpotiNftSong newSpotiNFtSong = new SpotiNftSong(
             _song_uris[i],
             _song_names[i],
-            song_price
+            _song_price
          );
          address new_address = address(newSpotiNFtSong);
          address_to_song[new_address] = newSpotiNFtSong;
@@ -98,5 +99,6 @@ contract SpotiNftAlbum is ERC721{
       for(uint256 i = 0; i < song_nfts.length; i++){
          _songs[i] = address(song_nfts[i]);
       }
+      return _songs;
    }
 }
