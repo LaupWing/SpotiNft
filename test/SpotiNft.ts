@@ -90,5 +90,21 @@ describe.only("SpotiNft", () => {
          )).revertedWithCustomError(spotiNft, "SpotiNftMarketplace__AlreadyRegistered")
             .withArgs(owner.address, true)
       })
+
+      it("Should show the information of the artist", async () => {
+         const { spotiNft } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         await transaction.wait()
+         const artist = await spotiNft.myInfo() 
+         
+         expect(artist.tokenId.toString()).to.equal("1")
+         expect(artist.name).to.equal(ARTIST_1.name)
+         expect(await spotiNft.tokenURI(1)).to.equal(ARTIST_1.profile_pic)
+      })
    })
 })
