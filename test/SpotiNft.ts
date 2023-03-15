@@ -11,6 +11,10 @@ const ALBUM_OBJECT = {
    songPrices: [1, 2, 3],
    albumPrice: 10
 }
+const ARTIST_1 = {
+   profile_pic: "someprofilepic.jpg",
+   name: "Lil Dicky"
+}
 
 describe.only("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
@@ -36,6 +40,39 @@ describe.only("SpotiNft", () => {
          
          expect(await spotiNft.owner()).equal(owner.address)
          expect(await spotiNft.symbol()).equal("SNFT")
+      })
+   })
+
+   describe("Artist registration", () => {
+      it("Should register user correctly", async () => {
+         const { spotiNft } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         expect((await spotiNft.getAllArtists()).length).to.equal(0)
+         await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         expect((await spotiNft.getAllArtists()).length).to.equal(1)
+      })
+
+      it("Should emit an event when register correctly", async () => {
+         const event_name = "ArtistCreated"
+         const { spotiNft, owner } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         const transaction_receipt = await transaction.wait()
+         const event_args = transaction_receipt.events?.find(x => x.event === event_name)?.args! 
+         const token_id = event_args[1].toString() 
+         
+         await expect(transaction)
+            .to
+            .emit(spotiNft, event_name)
+            .withArgs(owner.address, token_id, ARTIST_1.name)
       })
    })
 })
