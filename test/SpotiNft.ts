@@ -8,7 +8,7 @@ const ALBUM_OBJECT = {
    symbol: "MFA",
    albumCover: "ipfscoverurl.png",
    songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
-   songPrices: [1, 2, 3],
+   songPrice: 1,
    albumPrice: 10
 }
 const ARTIST_1 = {
