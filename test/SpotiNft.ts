@@ -74,5 +74,21 @@ describe.only("SpotiNft", () => {
             .emit(spotiNft, event_name)
             .withArgs(owner.address, token_id, ARTIST_1.name)
       })
+
+      it("Should revert with custom error when user is already registerd", async () => {
+         const { spotiNft, owner } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         await transaction.wait()
+         await expect(spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )).revertedWithCustomError(spotiNft, "SpotiNftMarketplace__AlreadyRegistered")
+            .withArgs(owner.address, true)
+      })
    })
 })
