@@ -52,10 +52,12 @@ describe.only("SpotiNft", () => {
             ARTIST_1.profile_pic, 
             ARTIST_1.name
          )
+         const transaction_receipt = await transaction.wait()
          return {
             spotiNft,
             owner,
-            transaction
+            transaction,
+            transaction_receipt
          }
       }
       it("Should register user correctly", async () => {
@@ -72,10 +74,14 @@ describe.only("SpotiNft", () => {
 
       it("Should emit an event when register correctly", async () => {
          const event_name = "ArtistCreated"
-         const { spotiNft, owner, transaction } = await loadFixture(
+         const { 
+            spotiNft, 
+            owner, 
+            transaction,
+            transaction_receipt 
+         } = await loadFixture(
             registerFixture
-         )  
-         const transaction_receipt = await transaction.wait()
+         )
          const event_args = transaction_receipt.events?.find(x => x.event === event_name)?.args! 
          const token_id = event_args[1].toString() 
          
@@ -87,13 +93,8 @@ describe.only("SpotiNft", () => {
 
       it("Should revert with custom error when user is already registerd", async () => {
          const { spotiNft, owner } = await loadFixture(
-            deploySpotiNftFixture
-         )  
-         const transaction = await spotiNft.register(
-            ARTIST_1.profile_pic, 
-            ARTIST_1.name
+            registerFixture
          )
-         await transaction.wait()
          await expect(spotiNft.register(
             ARTIST_1.profile_pic, 
             ARTIST_1.name
@@ -103,13 +104,8 @@ describe.only("SpotiNft", () => {
 
       it("Should show the information of the artist", async () => {
          const { spotiNft } = await loadFixture(
-            deploySpotiNftFixture
-         )  
-         const transaction = await spotiNft.register(
-            ARTIST_1.profile_pic, 
-            ARTIST_1.name
+            registerFixture
          )
-         await transaction.wait()
          const artist = await spotiNft.myInfo() 
          
          expect(artist.tokenId.toString()).to.equal("1")
