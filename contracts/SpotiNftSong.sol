@@ -11,7 +11,6 @@ contract SpotiNftSong is ERC721{
    Counters.Counter private tokenId;
 
    string private uri;
-   string private name;
    uint256 private mintFee;
    address[] private owners;
    address private album;
@@ -20,10 +19,9 @@ contract SpotiNftSong is ERC721{
       string memory _uri,
       string memory _name,
       uint256 _mintFee
-   ) ERC721("SpotiSong", "SONG"){
+   ) ERC721(_name, "SONG"){
       album = msg.sender;
       uri = _uri;
-      name = _name;
       mintFee = _mintFee;
    }
 
@@ -50,7 +48,7 @@ contract SpotiNftSong is ERC721{
    }
 
    function getName() public view returns(string memory){
-      return name;
+      return name();
    }
 
    function getMintFee() public view returns(uint256){

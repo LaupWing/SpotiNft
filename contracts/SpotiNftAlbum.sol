@@ -13,7 +13,6 @@ contract SpotiNftAlbum is ERC721{
    Counters.Counter private tokenId;
 
    string private cover_uri;
-   string private name;
    uint256 private mintFee;
    address[] private owners;
    address private owner;
@@ -34,10 +33,9 @@ contract SpotiNftAlbum is ERC721{
       string[] memory _song_uris,
       string[] memory _song_names,
       uint256 _song_price
-   ) ERC721("SpotiAlbum", "ALBUM"){
+   ) ERC721(_name, "ALBUM"){
       owner = msg.sender;
       cover_uri = _cover_uri;
-      name = _name;
       mintFee = _mintFee;
    }
 
@@ -64,7 +62,7 @@ contract SpotiNftAlbum is ERC721{
    }
 
    function getName() public view returns(string memory){
-      return name;
+      return name();
    }
 
    function getMintFee() public view returns(uint256){
