@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "./SpotiNftAlbum.sol";
+import "./SpotiNftSong.sol";
 
 error SpotiNftMarketplace__AlreadyRegistered(
    address artist_address,
@@ -45,6 +46,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       address owner;
       // address album_address;
       string name;
+      SpotiNftSong[] songs;
    }
 
    event AlbumCreated (
@@ -154,9 +156,11 @@ contract SpotiNftMarketplace is ERC721URIStorage {
 
       for (uint256 i = 0; i < albumsArray.length; i ++){
          // SpotiNftAlbum = SpotiNftAlbum(albumsArray[i]);
+         // console.log(albumsArray[i].getSongs());
          ret[i] = Album(
             albumsArray[i].getOwner(),
-            albumsArray[i].getName()
+            albumsArray[i].getName(),
+            albumsArray[i].getSongs()
          );
       }
       return ret;
