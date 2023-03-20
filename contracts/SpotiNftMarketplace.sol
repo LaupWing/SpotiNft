@@ -42,7 +42,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    //    uint256 _song_price
 
    struct Album {
-      // address owner;
+      address owner;
       // address album_address;
       string name;
    }
@@ -155,6 +155,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       for (uint256 i = 0; i < albumsArray.length; i ++){
          // SpotiNftAlbum = SpotiNftAlbum(albumsArray[i]);
          ret[i] = Album(
+            albumsArray[i].getOwner(),
             albumsArray[i].getName()
          );
       }
