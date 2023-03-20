@@ -118,36 +118,37 @@ describe("SpotiNft", () => {
    })
 
    describe("Albums", () => {
-      // const registerFixture = async () => {
-      //    const { spotiNft, owner } = await loadFixture(
-      //       deploySpotiNftFixture
-      //    )  
-      //    const transaction = await spotiNft.register(
-      //       ARTIST_1.profile_pic, 
-      //       ARTIST_1.name
-      //    )
-      //    await transaction.wait()
-      //    return {
-      //       spotiNft,
-      //       owner
-      //    }
-      // }
+      const registerFixture = async () => {
+         const { spotiNft, owner } = await loadFixture(
+            deploySpotiNftFixture
+         )  
+         const transaction = await spotiNft.register(
+            ARTIST_1.profile_pic, 
+            ARTIST_1.name
+         )
+         await transaction.wait()
+         return {
+            spotiNft,
+            owner
+         }
+      }
 
-      // it("Should allow the artist to create an album", async () => {
-      //    const {
-      //       spotiNft
-      //    } = await loadFixture(registerFixture)
+      it("Should allow the artist to create an album", async () => {
+         const {
+            spotiNft
+         } = await loadFixture(registerFixture)
 
-      //    await spotiNft.createAlbum(
-      //       ALBUM_OBJECT.name,
-      //       ALBUM_OBJECT.albumCover,
-      //       ALBUM_OBJECT.albumPrice,
-      //       ALBUM_OBJECT.songUris,
-      //       ALBUM_OBJECT.songNames,
-      //       ALBUM_OBJECT.songPrice
-      //    )
-
-      //    // console.log(spotiNft.)
-      // })
+         await spotiNft.createAlbum(
+            ALBUM_OBJECT.name,
+            ALBUM_OBJECT.albumCover,
+            ALBUM_OBJECT.albumPrice,
+            ALBUM_OBJECT.songUris,
+            ALBUM_OBJECT.songNames,
+            ALBUM_OBJECT.songPrice
+         )
+         const temp = await spotiNft.getAlbums() 
+         console.log(await spotiNft.getAlbumContract(temp[0]))
+         console.log()
+      })
    })
 })
