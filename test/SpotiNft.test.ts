@@ -17,7 +17,7 @@ const ARTIST_1 = {
    name: "Lil Dicky"
 }
 
-describe.only("SpotiNft", () => {
+describe("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
       const [owner, account1, account2] = await ethers.getSigners()
 
@@ -35,7 +35,7 @@ describe.only("SpotiNft", () => {
          spotiNft
       }
    }
-   describe.only("Deployment", () => {
+   describe("Deployment", () => {
       it("Should set the right name and symbol", async () => {
          const { owner, spotiNft } = await loadFixture(
             deploySpotiNftFixture
