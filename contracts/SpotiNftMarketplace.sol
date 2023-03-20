@@ -133,11 +133,11 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       albums[created_album_address] = msg.sender;
       Artist storage artist = artists[msg.sender];
       artist.albums.push(address(createdAlbum));
-
+      albumsArray.push(createdAlbum);
       emit AlbumCreated(created_album_address, _name);
    }
 
-   function getAlbums() public view returns(string memory){
-      return "test";
+   function getAlbums() public view returns(SpotiNftAlbum[] memory){
+      return albumsArray;
    }
 }
