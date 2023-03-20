@@ -146,9 +146,8 @@ describe("SpotiNft", () => {
             ALBUM_OBJECT.songNames,
             ALBUM_OBJECT.songPrice
          )
-         const temp = await spotiNft.getAlbums() 
-         console.log(await spotiNft.getAlbumContract(temp[0]))
-         console.log()
+         const temp = await spotiNft.getAlbums()
+         console.log(temp)
       })
    })
 })
