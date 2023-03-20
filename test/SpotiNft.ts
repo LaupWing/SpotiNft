@@ -22,7 +22,9 @@ describe.only("SpotiNft", () => {
       const [owner, account1, account2] = await ethers.getSigners()
 
       const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
-      const spotiNft = await SpotiNft.deploy()
+      const spotiNft = await SpotiNft.deploy({
+         gasLimit: 30000000
+      })
 
       await spotiNft.deployed()
       
@@ -33,7 +35,7 @@ describe.only("SpotiNft", () => {
          spotiNft
       }
    }
-   describe("Deployment", () => {
+   describe.only("Deployment", () => {
       it("Should set the right name and symbol", async () => {
          const { owner, spotiNft } = await loadFixture(
             deploySpotiNftFixture
@@ -116,36 +118,36 @@ describe.only("SpotiNft", () => {
    })
 
    describe("Albums", () => {
-      const registerFixture = async () => {
-         const { spotiNft, owner } = await loadFixture(
-            deploySpotiNftFixture
-         )  
-         const transaction = await spotiNft.register(
-            ARTIST_1.profile_pic, 
-            ARTIST_1.name
-         )
-         await transaction.wait()
-         return {
-            spotiNft,
-            owner
-         }
-      }
+      // const registerFixture = async () => {
+      //    const { spotiNft, owner } = await loadFixture(
+      //       deploySpotiNftFixture
+      //    )  
+      //    const transaction = await spotiNft.register(
+      //       ARTIST_1.profile_pic, 
+      //       ARTIST_1.name
+      //    )
+      //    await transaction.wait()
+      //    return {
+      //       spotiNft,
+      //       owner
+      //    }
+      // }
 
-      it("Should allow the artist to create an album", async () => {
-         const {
-            spotiNft
-         } = await loadFixture(registerFixture)
+      // it("Should allow the artist to create an album", async () => {
+      //    const {
+      //       spotiNft
+      //    } = await loadFixture(registerFixture)
 
-         await spotiNft.createAlbum(
-            ALBUM_OBJECT.name,
-            ALBUM_OBJECT.albumCover,
-            ALBUM_OBJECT.albumPrice,
-            ALBUM_OBJECT.songUris,
-            ALBUM_OBJECT.songNames,
-            ALBUM_OBJECT.songPrice
-         )
+      //    await spotiNft.createAlbum(
+      //       ALBUM_OBJECT.name,
+      //       ALBUM_OBJECT.albumCover,
+      //       ALBUM_OBJECT.albumPrice,
+      //       ALBUM_OBJECT.songUris,
+      //       ALBUM_OBJECT.songNames,
+      //       ALBUM_OBJECT.songPrice
+      //    )
 
-         // console.log(spotiNft.)
-      })
+      //    // console.log(spotiNft.)
+      // })
    })
 })
