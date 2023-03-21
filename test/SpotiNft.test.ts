@@ -133,7 +133,7 @@ describe("SpotiNft", () => {
          }
       }
 
-      it("Should allow the artist to create an album", async () => {
+      it.only("Should allow the artist to create an album", async () => {
          const {
             spotiNft
          } = await loadFixture(registerFixture)
@@ -147,8 +147,8 @@ describe("SpotiNft", () => {
             ALBUM_OBJECT.songPrice
          )
          const temp = await spotiNft.getAlbums()
-         const SpotiNftAlbum = await ethers.getContractAt("SpotiNftAlbum", temp[0]!)
-         console.log(SpotiNftAlbum)
+         // const SpotiNftAlbum = await ethers.getContractAt("SpotiNftAlbum", temp[0]!)
+         console.log(temp)
       })
    })
 })

@@ -151,18 +151,18 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       emit AlbumCreated(created_album_address, _name);
    }
 
-   function getAlbums() public view returns(Album[] memory){
-      Album[] memory ret = new Album[](albumsArray.length);
+   function getAlbums() public view returns(SpotiNftAlbum[] memory){
+      // Album[] memory ret = new Album[](albumsArray.length);
 
-      for (uint256 i = 0; i < albumsArray.length; i ++){
-         // SpotiNftAlbum = SpotiNftAlbum(albumsArray[i]);
-         // console.log(albumsArray[i].getSongs());
-         ret[i] = Album(
-            albumsArray[i].getOwner(),
-            albumsArray[i].getName(),
-            albumsArray[i].getSongs()
-         );
-      }
-      return ret;
+      // for (uint256 i = 0; i < albumsArray.length; i ++){
+      //    // SpotiNftAlbum = SpotiNftAlbum(albumsArray[i]);
+      //    // console.log(albumsArray[i].getSongs());
+      //    ret[i] = Album(
+      //       albumsArray[i].getOwner(),
+      //       albumsArray[i].getName(),
+      //       albumsArray[i].getSongs()
+      //    );
+      // }
+      return albumsArray;
    }
 }
