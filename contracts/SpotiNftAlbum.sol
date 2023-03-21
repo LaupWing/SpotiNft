@@ -87,6 +87,7 @@ contract SpotiNftAlbum is ERC721{
          );
          address new_address = address(newSpotiNFtSong);
          address_to_song[new_address] = newSpotiNFtSong;
+         song_nfts.push(newSpotiNFtSong);
       }
    }
 
