@@ -35,19 +35,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       bool created;
       address[] albums;
    }
-   //  string memory _name,
-   //    string memory _cover_uri,
-   //    uint256 _mintFee,
-   //    string[] memory _song_uris,
-   //    string[] memory _song_names,
-   //    uint256 _song_price
-
-   struct Album {
-      address owner;
-      // address album_address;
-      string name;
-      SpotiNftSong[] songs;
-   }
 
    event AlbumCreated (
       address indexed album_address,
@@ -152,17 +139,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    }
 
    function getAlbums() public view returns(SpotiNftAlbum[] memory){
-      // Album[] memory ret = new Album[](albumsArray.length);
-
-      // for (uint256 i = 0; i < albumsArray.length; i ++){
-      //    // SpotiNftAlbum = SpotiNftAlbum(albumsArray[i]);
-      //    // console.log(albumsArray[i].getSongs());
-      //    ret[i] = Album(
-      //       albumsArray[i].getOwner(),
-      //       albumsArray[i].getName(),
-      //       albumsArray[i].getSongs()
-      //    );
-      // }
       return albumsArray;
    }
 }
