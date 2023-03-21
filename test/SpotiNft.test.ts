@@ -149,6 +149,7 @@ describe("SpotiNft", () => {
          const temp = await spotiNft.getAlbums()
          const SpotiNftAlbum = await ethers.getContractAt("SpotiNftAlbum", temp[0]!)
          console.log(await SpotiNftAlbum.getSongs())
+         expect((await spotiNft.getAlbums()).length).equal(1)
       })
    })
 })
