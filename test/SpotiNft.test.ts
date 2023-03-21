@@ -146,10 +146,10 @@ describe("SpotiNft", () => {
             ALBUM_OBJECT.songNames,
             ALBUM_OBJECT.songPrice
          )
-         const temp = await spotiNft.getAlbums()
-         const SpotiNftAlbum = await ethers.getContractAt("SpotiNftAlbum", temp[0]!)
-         console.log(await SpotiNftAlbum.getSongs())
-         expect((await spotiNft.getAlbums()).length).equal(1)
+         const albums = await spotiNft.getAlbums() 
+         const SpotiNftAlbum = await ethers.getContractAt("SpotiNftAlbum", albums[0])
+         
+         expect(albums.length).equal(1)
       })
    })
 })
