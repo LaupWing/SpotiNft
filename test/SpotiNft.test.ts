@@ -127,16 +127,6 @@ describe("SpotiNft", () => {
             ARTIST_1.name
          )
          await transaction.wait()
-         return {
-            spotiNft,
-            owner
-         }
-      }
-
-      it("Should allow the artist to create an album", async () => {
-         const {
-            spotiNft
-         } = await loadFixture(registerFixture)
 
          await spotiNft.createAlbum(
             ALBUM_OBJECT.name,
@@ -148,6 +138,19 @@ describe("SpotiNft", () => {
          )
          const albums = await spotiNft.getAlbums() 
          const nft_album = await ethers.getContractAt("SpotiNftAlbum", albums[0])
+         return {
+            spotiNft,
+            owner,
+            albums,
+            nft_album
+         }
+      }
+
+      it("Should allow the artist to create an album", async () => {
+         const {
+            albums,
+            nft_album
+         } = await loadFixture(registerFixture)
          
          expect(albums.length).equal(1)
          expect(await nft_album.getName()).equal(ALBUM_OBJECT.name)
@@ -156,5 +159,7 @@ describe("SpotiNft", () => {
          expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.song_price)
          expect((await nft_album.getSongs()).length).equal(ALBUM_OBJECT.song_names.length)
       })
+
+
    })
 })
