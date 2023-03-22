@@ -20,9 +20,6 @@ const ARTIST_1 = {
 describe("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
       const [owner, account1, account2] = await ethers.getSigners()
-      console.log(owner.address)
-      console.log(account1.address)
-      console.log(account2.address)
 
       const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
       const spotiNft = await SpotiNft.deploy({
