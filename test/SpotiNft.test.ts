@@ -133,7 +133,7 @@ describe("SpotiNft", () => {
          }
       }
 
-      it.only("Should allow the artist to create an album", async () => {
+      it("Should allow the artist to create an album", async () => {
          const {
             spotiNft
          } = await loadFixture(registerFixture)
@@ -154,6 +154,7 @@ describe("SpotiNft", () => {
          expect(await nft_album.getCoverUri()).equal(ALBUM_OBJECT.album_cover)
          expect(await nft_album.getMintFee()).equal(ALBUM_OBJECT.album_price)
          expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.song_price)
+         expect((await nft_album.getSongs()).length).equal(ALBUM_OBJECT.song_names.length)
       })
    })
 })
