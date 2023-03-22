@@ -33,9 +33,10 @@ contract SpotiNftAlbum is ERC721{
       uint256 _mint_fee,
       string[] memory _song_uris,
       string[] memory _song_names,
-      uint256 _song_price
+      uint256 _song_price,
+      address _owner
    ) ERC721(_name, "ALBUM"){
-      owner = msg.sender;
+      owner = _owner;
       cover_uri = _cover_uri;
       mint_fee = _mint_fee;
       song_mint_fee = _song_price;

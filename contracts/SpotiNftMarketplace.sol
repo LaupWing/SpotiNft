@@ -128,7 +128,8 @@ contract SpotiNftMarketplace is ERC721URIStorage {
          _album_price,
          _song_uris,
          _song_names,
-         _song_price
+         _song_price,
+         msg.sender
       );
       address created_album_address = address(createdAlbum);
       albums[created_album_address] = msg.sender;

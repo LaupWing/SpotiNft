@@ -20,6 +20,9 @@ const ARTIST_1 = {
 describe("SpotiNft", () => {
    const deploySpotiNftFixture = async () => {
       const [owner, account1, account2] = await ethers.getSigners()
+      console.log(owner.address)
+      console.log(account1.address)
+      console.log(account2.address)
 
       const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
       const spotiNft = await SpotiNft.deploy({
@@ -149,7 +152,8 @@ describe("SpotiNft", () => {
       it("Should allow the artist to create an album", async () => {
          const {
             albums,
-            nft_album
+            nft_album,
+            owner
          } = await loadFixture(registerFixture)
          
          expect(albums.length).equal(1)
@@ -158,9 +162,10 @@ describe("SpotiNft", () => {
          expect(await nft_album.getMintFee()).equal(ALBUM_OBJECT.album_price)
          expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.song_price)
          expect((await nft_album.getSongs()).length).equal(ALBUM_OBJECT.song_names.length)
+         expect(await nft_album.getOwner()).equal(owner.address)
       })
 
-      it.only("Registers the correct songs", async () => {
+      it("Registers the correct songs", async () => {
          const {
             nft_album
          } = await loadFixture(registerFixture)
