@@ -76,6 +76,10 @@ contract SpotiNftAlbum is ERC721{
       return mint_fee;
    }
 
+   function getSongMintFee() public view returns(uint256){
+      return song_mint_fee;
+   }
+
    function setSongs(
       string[] memory _song_uris, 
       string[] memory _song_names

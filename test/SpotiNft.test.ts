@@ -153,6 +153,7 @@ describe("SpotiNft", () => {
          expect(await nft_album.getName()).equal(ALBUM_OBJECT.name)
          expect(await nft_album.getCoverUri()).equal(ALBUM_OBJECT.albumCover)
          expect(await nft_album.getMintFee()).equal(ALBUM_OBJECT.albumPrice)
+         expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.songPrice)
       })
    })
 })
