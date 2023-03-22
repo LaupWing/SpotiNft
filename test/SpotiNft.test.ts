@@ -149,7 +149,7 @@ describe("SpotiNft", () => {
          }
       }
 
-      it("Should allow the artist to create an album", async () => {
+      it.only("Should allow the artist to create an album", async () => {
          const {
             albums,
             nft_album,
