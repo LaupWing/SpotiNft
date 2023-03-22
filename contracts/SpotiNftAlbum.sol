@@ -105,6 +105,10 @@ contract SpotiNftAlbum is ERC721{
       song_nfts.push(newSpotiNFtSong);
    }
 
+   function addSong(string memory _song_uri, string memory _song_name) public onlyOwner(msg.sender){
+      setSong(_song_uri, _song_name);
+   }
+
    function buySong(
       address _spotiNftAddress
    ) public payable{
