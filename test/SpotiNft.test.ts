@@ -6,11 +6,11 @@ const EVENT_ALBUM_CREATED = "AlbumCreated"
 const ALBUM_OBJECT = {
    name: "My First Album",
    symbol: "MFA",
-   albumCover: "ipfscoverurl.png",
-   songUris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
-   songNames: ["Your mom", "Is fking", "Awesome"],
-   songPrice: 1,
-   albumPrice: 10
+   album_cover: "ipfscoverurl.png",
+   song_uris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
+   song_names: ["Your mom", "Is fking", "Awesome"],
+   song_price: 1,
+   album_price: 10
 }
 const ARTIST_1 = {
    profile_pic: "someprofilepic.jpg",
@@ -140,20 +140,20 @@ describe("SpotiNft", () => {
 
          await spotiNft.createAlbum(
             ALBUM_OBJECT.name,
-            ALBUM_OBJECT.albumCover,
-            ALBUM_OBJECT.albumPrice,
-            ALBUM_OBJECT.songUris,
-            ALBUM_OBJECT.songNames,
-            ALBUM_OBJECT.songPrice
+            ALBUM_OBJECT.album_cover,
+            ALBUM_OBJECT.album_price,
+            ALBUM_OBJECT.song_uris,
+            ALBUM_OBJECT.song_names,
+            ALBUM_OBJECT.song_price
          )
          const albums = await spotiNft.getAlbums() 
          const nft_album = await ethers.getContractAt("SpotiNftAlbum", albums[0])
          
          expect(albums.length).equal(1)
          expect(await nft_album.getName()).equal(ALBUM_OBJECT.name)
-         expect(await nft_album.getCoverUri()).equal(ALBUM_OBJECT.albumCover)
-         expect(await nft_album.getMintFee()).equal(ALBUM_OBJECT.albumPrice)
-         expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.songPrice)
+         expect(await nft_album.getCoverUri()).equal(ALBUM_OBJECT.album_cover)
+         expect(await nft_album.getMintFee()).equal(ALBUM_OBJECT.album_price)
+         expect(await nft_album.getSongMintFee()).equal(ALBUM_OBJECT.song_price)
       })
    })
 })
