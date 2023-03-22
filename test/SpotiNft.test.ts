@@ -160,6 +160,18 @@ describe("SpotiNft", () => {
          expect((await nft_album.getSongs()).length).equal(ALBUM_OBJECT.song_names.length)
       })
 
-
+      it.only("Registers the correct songs", async () => {
+         const {
+            nft_album
+         } = await loadFixture(registerFixture)
+         const songs = await nft_album.getSongs()
+         const proxies = songs.map(async (song_address, i) => {
+            const nft_song = await ethers.getContractAt("SpotiNftSong", song_address)
+            expect(await nft_song.getName()).equal(ALBUM_OBJECT.song_names[i])
+            expect(await nft_song.getMintFee()).equal(ALBUM_OBJECT.song_price)
+            expect(await nft_song.getUri()).equal(ALBUM_OBJECT.song_uris[i])
+         })
+         await Promise.all(proxies)
+      })
    })
 })
