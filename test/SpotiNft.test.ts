@@ -119,7 +119,7 @@ describe("SpotiNft", () => {
 
    describe("Albums", () => {
       const registerFixture = async () => {
-         const { spotiNft, owner, account1 } = await loadFixture(
+         const { spotiNft, owner, account1, account2 } = await loadFixture(
             deploySpotiNftFixture
          )  
          const transaction = await spotiNft.register(
@@ -143,7 +143,8 @@ describe("SpotiNft", () => {
             owner,
             albums,
             nft_album,
-            account1
+            account1,
+            account2
          }
       }
 
@@ -208,6 +209,15 @@ describe("SpotiNft", () => {
          await expect(
             nft_album.connect(account1).addSong("should_revert.mp3", "reverted song")
          ).revertedWithCustomError(nft_album, "SpotiAlbum__OnlyOwner")
+      })
+
+      it("Allows users to buy a ablum", async () => {
+         const { nft_album, account1 } = await loadFixture(registerFixture)
+         
+         await nft_album.connect(account1).mintAlbum({
+            value: ALBUM_OBJECT.album_price
+         })
+         expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.album_price)
       })
    })
 })
