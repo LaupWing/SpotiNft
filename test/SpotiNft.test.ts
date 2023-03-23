@@ -191,7 +191,7 @@ describe("SpotiNft", () => {
             .withArgs(account1.address, false)
       })
 
-      it.only("Allows the user to add a new song", async () => {
+      it("Allows the user to add a new song", async () => {
          const new_song = "My new song"
          const { nft_album } = await loadFixture(registerFixture)
          expect((await nft_album.getSongs()).length).equal(3)
