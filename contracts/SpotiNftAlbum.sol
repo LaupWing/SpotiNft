@@ -27,8 +27,8 @@ contract SpotiNftAlbum is ERC721{
       _;
    }
 
-   modifier songMintCheck(uint256 price){
-      if(msg.value < price){
+   modifier songMintCheck(){
+      if(msg.value < song_mint_fee){
          revert SpotiAlbum__NotEoughEthSend();
       }
       _;
@@ -118,7 +118,7 @@ contract SpotiNftAlbum is ERC721{
 
    function buySong(
       address _spotiNftAddress
-   ) public payable{
+   ) public payable songMintCheck{
       SpotiNftSong song = address_to_song[_spotiNftAddress];
       song.mintSong(msg.sender, msg.value);
    }
