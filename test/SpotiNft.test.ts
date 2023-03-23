@@ -202,5 +202,12 @@ describe("SpotiNft", () => {
             return nft_song.getName()
          }))).includes(new_song)
       })
+
+      it("Reverts when a non owner tries to add a song", async () => {
+         const { nft_album, account1 } = await loadFixture(registerFixture)
+         await expect(
+            nft_album.connect(account1).addSong("should_revert.mp3", "reverted song")
+         ).revertedWithCustomError(nft_album, "SpotiAlbum__OnlyOwner")
+      })
    })
 })
