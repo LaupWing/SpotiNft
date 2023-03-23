@@ -119,7 +119,7 @@ describe("SpotiNft", () => {
 
    describe("Albums", () => {
       const registerFixture = async () => {
-         const { spotiNft, owner } = await loadFixture(
+         const { spotiNft, owner, account1 } = await loadFixture(
             deploySpotiNftFixture
          )  
          const transaction = await spotiNft.register(
@@ -142,11 +142,12 @@ describe("SpotiNft", () => {
             spotiNft,
             owner,
             albums,
-            nft_album
+            nft_album,
+            account1
          }
       }
 
-      it.only("Should allow the artist to create an album", async () => {
+      it("Should allow the artist to create an album", async () => {
          const {
             albums,
             nft_album,
@@ -174,6 +175,20 @@ describe("SpotiNft", () => {
             expect(await nft_song.getUri()).equal(ALBUM_OBJECT.song_uris[i])
          })
          await Promise.all(proxies)
+      })
+      
+      it("Should throw an error when an unregistered user wants to create an album" , async () => {
+         const { account1, spotiNft } = await loadFixture(registerFixture)
+         await expect(spotiNft.connect(account1).createAlbum(
+            ALBUM_OBJECT.name,
+            ALBUM_OBJECT.album_cover,
+            ALBUM_OBJECT.album_price,
+            ALBUM_OBJECT.song_uris,
+            ALBUM_OBJECT.song_names,
+            ALBUM_OBJECT.song_price
+         ))
+            .revertedWithCustomError(spotiNft, "SpotiNftMarketplace__NotRegistered")
+            .withArgs(account1.address, false)
       })
    })
 })
