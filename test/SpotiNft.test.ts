@@ -190,5 +190,17 @@ describe("SpotiNft", () => {
             .revertedWithCustomError(spotiNft, "SpotiNftMarketplace__NotRegistered")
             .withArgs(account1.address, false)
       })
+
+      it.only("Allows the user to add a new song", async () => {
+         const new_song = "My new song"
+         const { nft_album } = await loadFixture(registerFixture)
+         expect((await nft_album.getSongs()).length).equal(3)
+         await nft_album.addSong("new_song_uri.mp3", new_song)
+         expect((await nft_album.getSongs()).length).equal(4)
+         expect(await Promise.all((await nft_album.getSongs()).map(async x=> {
+            const nft_song = await ethers.getContractAt("SpotiNftSong", x)
+            return nft_song.getName()
+         }))).includes(new_song)
+      })
    })
 })
