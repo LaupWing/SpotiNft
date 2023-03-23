@@ -25,7 +25,7 @@ contract SpotiNftSong is ERC721{
       mintFee = _mintFee;
    }
 
-   function mintSong(address buyer, uint256 eth) public payable {
+   function mintSong(address buyer, uint256 eth) public {
       if(eth < mintFee){
          revert SpotiNftSong__NotEoughEthSend();
       }

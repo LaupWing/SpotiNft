@@ -131,4 +131,8 @@ contract SpotiNftAlbum is ERC721{
       }
       return _songs;
    }
+   
+   function getBalance() public view returns(uint256) {
+      return address(this).balance;
+   }
 }
