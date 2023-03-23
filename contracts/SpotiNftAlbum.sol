@@ -27,6 +27,13 @@ contract SpotiNftAlbum is ERC721{
       _;
    }
 
+   modifier songMintCheck(uint256 price){
+      if(msg.value < price){
+         revert SpotiAlbum__NotEoughEthSend();
+      }
+      _;
+   }
+
    constructor(
       string memory _name,
       string memory _cover_uri,
