@@ -218,6 +218,7 @@ describe("SpotiNft", () => {
             value: ALBUM_OBJECT.album_price
          })
          expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.album_price)
+         // console.log(await nft_album.get)
       })
    })
 })

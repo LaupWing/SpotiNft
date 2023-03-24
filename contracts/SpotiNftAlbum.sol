@@ -50,6 +50,10 @@ contract SpotiNftAlbum is ERC721{
       setSongs(_song_uris, _song_names, _owner);
    }
 
+   function getTokenId() public view returns(uint256) {
+      return tokenId.current();
+   }
+
    function mintAlbum() public payable {
       if(msg.value < mint_fee){
          revert SpotiAlbum__NotEoughEthSend();
