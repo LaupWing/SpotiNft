@@ -16,7 +16,7 @@ contract SpotiNftAlbum is ERC721{
    uint256 private mint_fee;
    uint256 private song_mint_fee;
    address[] private owners;
-   address private owner;
+   address payable private owner;
    SpotiNftSong[] private song_nfts;
    mapping(address => SpotiNftSong ) address_to_song;
 
@@ -48,7 +48,7 @@ contract SpotiNftAlbum is ERC721{
       uint256 _song_price,
       address _owner
    ) ERC721(_name, "ALBUM"){
-      owner = _owner;
+      owner = payable(_owner);
       cover_uri = _cover_uri;
       mint_fee = _mint_fee;
       song_mint_fee = _song_price;
@@ -144,5 +144,11 @@ contract SpotiNftAlbum is ERC721{
    
    function getBalance() public view returns(uint256) {
       return address(this).balance;
+   }
+
+   function transferBalanceToOwner() public {
+      require(msg.sender == owner, "Only the owner can transfer");
+      uint256 balance = address(this).balance;
+      owner.transfer(balance);
    }
 }
