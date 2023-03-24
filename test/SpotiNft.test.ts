@@ -214,11 +214,12 @@ describe("SpotiNft", () => {
       it("Allows users to buy a ablum", async () => {
          const { nft_album, account1 } = await loadFixture(registerFixture)
          
+         expect(await nft_album.getTokenId()).equal(0)
          await nft_album.connect(account1).mintAlbum({
             value: ALBUM_OBJECT.album_price
          })
          expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.album_price)
-         // console.log(await nft_album.get)
+         expect(await nft_album.getTokenId()).equal(1)
       })
    })
 })
