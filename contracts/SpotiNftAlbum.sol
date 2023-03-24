@@ -36,7 +36,7 @@ contract SpotiNftAlbum is ERC721{
 
    event AlbumMinted (
       address indexed buyer,
-      uint256 indexed token_id
+      uint256 indexed tokenId
    );
 
    constructor(
@@ -67,6 +67,7 @@ contract SpotiNftAlbum is ERC721{
       uint256 newTokenId = tokenId.current();
       _safeMint(msg.sender, newTokenId);
       owners.push(msg.sender);
+      emit AlbumMinted(msg.sender, tokenId.current());
    }
 
    function getCoverUri() public view returns(string memory){

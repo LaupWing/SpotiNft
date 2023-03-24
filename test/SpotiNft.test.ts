@@ -215,11 +215,16 @@ describe("SpotiNft", () => {
          const { nft_album, account1 } = await loadFixture(registerFixture)
          
          expect(await nft_album.getTokenId()).equal(0)
-         await nft_album.connect(account1).mintAlbum({
+         const transaction = await nft_album.connect(account1).mintAlbum({
             value: ALBUM_OBJECT.album_price
          })
+         transaction.wait()
          expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.album_price)
          expect(await nft_album.getTokenId()).equal(1)
+         await expect(transaction).emit(nft_album, "AlbumMinted").withArgs(
+            account1.address,
+            1
+         )
       })
    })
 })
