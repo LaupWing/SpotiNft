@@ -34,6 +34,11 @@ contract SpotiNftAlbum is ERC721{
       _;
    }
 
+   event AlbumMinted (
+      address indexed buyer,
+      uint256 indexed token_id
+   );
+
    constructor(
       string memory _name,
       string memory _cover_uri,
