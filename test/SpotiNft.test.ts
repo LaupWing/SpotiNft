@@ -9,8 +9,8 @@ const ALBUM_OBJECT = {
    album_cover: "ipfscoverurl.png",
    song_uris: ["ipfssonguri1.mp3", "ipfssonguri2.mp3", "ipfssonguri3.mp3"],
    song_names: ["Your mom", "Is fking", "Awesome"],
-   song_price: 1,
-   album_price: 10
+   song_price: ethers.utils.parseUnits("1", "ether"),
+   album_price: ethers.utils.parseUnits("10", "ether")
 }
 const ARTIST_1 = {
    profile_pic: "someprofilepic.jpg",
@@ -225,6 +225,22 @@ describe("SpotiNft", () => {
             account1.address,
             1
          )
+      })
+
+      it.only("Allows owner to transfer the balance", async () =>{
+         const { nft_album, account1, owner } = await loadFixture(registerFixture)
+         const startingBalance = await owner.getBalance()
+         // console.log(startingBalance)
+         const transaction = await nft_album.connect(account1).mintAlbum({
+            value: ALBUM_OBJECT.album_price
+         })
+         transaction.wait()
+         const transactionTransfer = await nft_album.transferBalanceToOwner()
+         const transactionReceipt = await transactionTransfer.wait() 
+         const totalGas = transactionReceipt.gasUsed.mul(transactionReceipt.effectiveGasPrice)
+         
+         const endingBalance = await owner.getBalance()
+         expect(startingBalance.sub(totalGas).add(ALBUM_OBJECT.album_price)).equal(endingBalance)
       })
    })
 })
