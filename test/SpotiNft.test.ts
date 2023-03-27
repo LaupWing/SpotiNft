@@ -35,7 +35,7 @@ const deploySpotiNftFixture = async () => {
    }
 }
 
-const registerFixture = async () => {
+const deploySpotiAlbumFixture = async () => {
    const { spotiNft, owner, account1, account2 } = await loadFixture(
       deploySpotiNftFixture
    )  
@@ -79,7 +79,7 @@ describe("SpotiNft", () => {
    })
 
    describe("Artist registration", () => {
-      const registerFixture = async () => {
+      const deploySpotiAlbumFixture = async () => {
          const { spotiNft, owner } = await loadFixture(
             deploySpotiNftFixture
          )  
@@ -115,7 +115,7 @@ describe("SpotiNft", () => {
             transaction,
             transaction_receipt 
          } = await loadFixture(
-            registerFixture
+            deploySpotiAlbumFixture
          )
          const event_args = transaction_receipt.events?.find(x => x.event === event_name)?.args! 
          const token_id = event_args[1].toString() 
@@ -128,7 +128,7 @@ describe("SpotiNft", () => {
 
       it("Should revert with custom error when user is already registerd", async () => {
          const { spotiNft, owner } = await loadFixture(
-            registerFixture
+            deploySpotiAlbumFixture
          )
          await expect(spotiNft.register(
             ARTIST_1.profile_pic, 
@@ -139,7 +139,7 @@ describe("SpotiNft", () => {
 
       it("Should show the information of the artist", async () => {
          const { spotiNft } = await loadFixture(
-            registerFixture
+            deploySpotiAlbumFixture
          )
          const artist = await spotiNft.myInfo() 
          
@@ -155,7 +155,7 @@ describe("SpotiNft", () => {
             albums,
             nft_album,
             owner
-         } = await loadFixture(registerFixture)
+         } = await loadFixture(deploySpotiAlbumFixture)
          
          expect(albums.length).equal(1)
          expect(await nft_album.getName()).equal(ALBUM_OBJECT.name)
@@ -169,7 +169,7 @@ describe("SpotiNft", () => {
       it("Registers the correct songs", async () => {
          const {
             nft_album
-         } = await loadFixture(registerFixture)
+         } = await loadFixture(deploySpotiAlbumFixture)
          const songs = await nft_album.getSongs()
          const proxies = songs.map(async (song_address, i) => {
             const nft_song = await ethers.getContractAt("SpotiNftSong", song_address)
@@ -181,7 +181,7 @@ describe("SpotiNft", () => {
       })
       
       it("Should throw an error when an unregistered user wants to create an album" , async () => {
-         const { account1, spotiNft } = await loadFixture(registerFixture)
+         const { account1, spotiNft } = await loadFixture(deploySpotiAlbumFixture)
          await expect(spotiNft.connect(account1).createAlbum(
             ALBUM_OBJECT.name,
             ALBUM_OBJECT.album_cover,
@@ -196,7 +196,7 @@ describe("SpotiNft", () => {
 
       it("Allows the user to add a new song", async () => {
          const new_song = "My new song"
-         const { nft_album } = await loadFixture(registerFixture)
+         const { nft_album } = await loadFixture(deploySpotiAlbumFixture)
          expect((await nft_album.getSongs()).length).equal(3)
          await nft_album.addSong("new_song_uri.mp3", new_song)
          expect((await nft_album.getSongs()).length).equal(4)
@@ -207,14 +207,14 @@ describe("SpotiNft", () => {
       })
 
       it("Reverts when a non owner tries to add a song", async () => {
-         const { nft_album, account1 } = await loadFixture(registerFixture)
+         const { nft_album, account1 } = await loadFixture(deploySpotiAlbumFixture)
          await expect(
             nft_album.connect(account1).addSong("should_revert.mp3", "reverted song")
          ).revertedWithCustomError(nft_album, "SpotiAlbum__OnlyOwner")
       })
 
       it("Allows users to buy a ablum", async () => {
-         const { nft_album, account1 } = await loadFixture(registerFixture)
+         const { nft_album, account1 } = await loadFixture(deploySpotiAlbumFixture)
          
          expect(await nft_album.getTokenId()).equal(0)
          const transaction = await nft_album.connect(account1).mintAlbum({
@@ -230,7 +230,7 @@ describe("SpotiNft", () => {
       })
 
       it("Allows owner to transfer the balance", async () =>{
-         const { nft_album, account1, owner } = await loadFixture(registerFixture)
+         const { nft_album, account1, owner } = await loadFixture(deploySpotiAlbumFixture)
          const startingBalance = await owner.getBalance()
          const transaction = await nft_album.connect(account1).mintAlbum({
             value: ALBUM_OBJECT.album_price
