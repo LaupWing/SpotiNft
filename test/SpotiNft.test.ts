@@ -17,24 +17,56 @@ const ARTIST_1 = {
    name: "Lil Dicky"
 }
 
-describe("SpotiNft", () => {
-   const deploySpotiNftFixture = async () => {
-      const [owner, account1, account2] = await ethers.getSigners()
+const deploySpotiNftFixture = async () => {
+   const [owner, account1, account2] = await ethers.getSigners()
 
-      const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
-      const spotiNft = await SpotiNft.deploy({
-         gasLimit: 30000000
-      })
+   const SpotiNft = await ethers.getContractFactory("SpotiNftMarketplace")
+   const spotiNft = await SpotiNft.deploy({
+      gasLimit: 30000000
+   })
 
-      await spotiNft.deployed()
-      
-      return {
-         owner,
-         account1,
-         account2,
-         spotiNft
-      }
+   await spotiNft.deployed()
+   
+   return {
+      owner,
+      account1,
+      account2,
+      spotiNft
    }
+}
+
+const registerFixture = async () => {
+   const { spotiNft, owner, account1, account2 } = await loadFixture(
+      deploySpotiNftFixture
+   )  
+   const transaction = await spotiNft.register(
+      ARTIST_1.profile_pic, 
+      ARTIST_1.name
+   )
+   await transaction.wait()
+
+   await spotiNft.createAlbum(
+      ALBUM_OBJECT.name,
+      ALBUM_OBJECT.album_cover,
+      ALBUM_OBJECT.album_price,
+      ALBUM_OBJECT.song_uris,
+      ALBUM_OBJECT.song_names,
+      ALBUM_OBJECT.song_price
+   )
+   const albums = await spotiNft.getAlbums() 
+   const nft_album = await ethers.getContractAt("SpotiNftAlbum", albums[0])
+   return {
+      spotiNft,
+      owner,
+      albums,
+      nft_album,
+      account1,
+      account2
+   }
+}
+
+describe("SpotiNft", () => {
+
    describe("Deployment", () => {
       it("Should set the right name and symbol", async () => {
          const { owner, spotiNft } = await loadFixture(
@@ -118,36 +150,6 @@ describe("SpotiNft", () => {
    })
 
    describe("Albums", () => {
-      const registerFixture = async () => {
-         const { spotiNft, owner, account1, account2 } = await loadFixture(
-            deploySpotiNftFixture
-         )  
-         const transaction = await spotiNft.register(
-            ARTIST_1.profile_pic, 
-            ARTIST_1.name
-         )
-         await transaction.wait()
-
-         await spotiNft.createAlbum(
-            ALBUM_OBJECT.name,
-            ALBUM_OBJECT.album_cover,
-            ALBUM_OBJECT.album_price,
-            ALBUM_OBJECT.song_uris,
-            ALBUM_OBJECT.song_names,
-            ALBUM_OBJECT.song_price
-         )
-         const albums = await spotiNft.getAlbums() 
-         const nft_album = await ethers.getContractAt("SpotiNftAlbum", albums[0])
-         return {
-            spotiNft,
-            owner,
-            albums,
-            nft_album,
-            account1,
-            account2
-         }
-      }
-
       it("Should allow the artist to create an album", async () => {
          const {
             albums,
@@ -241,5 +243,9 @@ describe("SpotiNft", () => {
          const endingBalance = await owner.getBalance()
          expect(startingBalance.sub(totalGas).add(ALBUM_OBJECT.album_price)).equal(endingBalance)
       })
+   })
+
+   describe("Songs", () => {
+
    })
 })
