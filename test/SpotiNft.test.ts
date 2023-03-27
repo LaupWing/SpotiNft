@@ -246,6 +246,15 @@ describe("SpotiNft", () => {
    })
 
    describe("Songs", () => {
-
+      it.only("Allows users to buy a single song", async () => {
+         const {
+            albums,
+            nft_album,
+            owner
+         } = await loadFixture(deploySpotiAlbumFixture)
+         const songs = await nft_album.getSongs() 
+         const songContract = await ethers.getContractAt("SpotiNftSong", songs[0])
+         console.log(await songContract.getMintFee())
+      })
    })
 })
