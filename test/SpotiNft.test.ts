@@ -260,7 +260,11 @@ describe("SpotiNft", () => {
             account1
          } = await loadFixture(deploySpotiAlbumFixture)
          const songs = await nft_album.getSongs()
-         
+         const songContract = await ethers.getContractAt("SpotiNftSong", songs[0])
+         await nft_album.buySong(songs[0], {
+            value: ALBUM_OBJECT.song_price
+         })
+         console.log(await songContract.getOwners())
       })
 
    })
