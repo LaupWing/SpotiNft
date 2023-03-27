@@ -254,7 +254,7 @@ describe("SpotiNft", () => {
          const songContract = await ethers.getContractAt("SpotiNftSong", songs[0])
          expect(await songContract.getMintFee()).equal(ALBUM_OBJECT.song_price)
       })
-      it.only("Allows the user to mint a song", async () => {
+      it("Allows the user to mint a song", async () => {
          const {
             nft_album,
             account1
@@ -266,6 +266,7 @@ describe("SpotiNft", () => {
          })
          expect((await songContract.getOwners())[0]).equal(account1.address)
          expect(await songContract.ownerOf(1)).equal(account1.address)
+         expect(await songContract.getCurrentTokenId()).equal(1)
       })
 
    })
