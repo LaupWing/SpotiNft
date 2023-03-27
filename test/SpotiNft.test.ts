@@ -227,10 +227,9 @@ describe("SpotiNft", () => {
          )
       })
 
-      it.only("Allows owner to transfer the balance", async () =>{
+      it("Allows owner to transfer the balance", async () =>{
          const { nft_album, account1, owner } = await loadFixture(registerFixture)
          const startingBalance = await owner.getBalance()
-         // console.log(startingBalance)
          const transaction = await nft_album.connect(account1).mintAlbum({
             value: ALBUM_OBJECT.album_price
          })
