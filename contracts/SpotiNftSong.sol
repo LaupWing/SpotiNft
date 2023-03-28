@@ -43,7 +43,7 @@ contract SpotiNftSong is ERC721{
       return uri;
    }
 
-   function getCurrentTokenId() public view returns(uint256){
+   function getLatestTokenId() public view returns(uint256){
       return tokenId.current();
    }
 

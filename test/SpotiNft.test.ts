@@ -266,7 +266,7 @@ describe("SpotiNft", () => {
          })
          expect((await songContract.getOwners())[0]).equal(account1.address)
          expect(await songContract.ownerOf(1)).equal(account1.address)
-         expect(await songContract.getCurrentTokenId()).equal(1)
+         expect(await songContract.getLatestTokenId()).equal(1)
          expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.song_price)
       })
 
@@ -284,7 +284,7 @@ describe("SpotiNft", () => {
          await nft_album.connect(account2).buySong(songs[0], {
             value: ALBUM_OBJECT.song_price
          })
-         expect(await songContract.getCurrentTokenId()).equal(2)
+         expect(await songContract.getLatestTokenId()).equal(2)
       })
 
       it("Registers the bought song of account1 account2", async () => {
@@ -305,6 +305,24 @@ describe("SpotiNft", () => {
          expect(await songContract.ownerOf(2)).equal(account2.address)
          expect(await songContract.getOwners())
             .includes(account1.address, account2.address)
+      })
+
+      it("Doesnt add duplicates to the ownersList when acount1 buys a song twice", async () => {
+         const {
+            nft_album,
+            account1
+         } = await loadFixture(deploySpotiAlbumFixture)
+         const songs = await nft_album.getSongs()
+         const songContract = await ethers.getContractAt("SpotiNftSong", songs[0])
+         await nft_album.connect(account1).buySong(songs[0], {
+            value: ALBUM_OBJECT.song_price
+         })
+         await nft_album.connect(account1).buySong(songs[0], {
+            value: ALBUM_OBJECT.song_price
+         })
+
+         expect(await songContract.getLatestTokenId()).equal(2)
+         expect(await songContract.getOwners()).lengthOf(1)
       })
    })
 })
