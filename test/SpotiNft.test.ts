@@ -308,6 +308,7 @@ describe("SpotiNft", () => {
          expect(await songContract.ownerOf(2)).equal(account2.address)
          expect(await songContract.getOwners())
             .includes(account1.address, account2.address)
+         expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.song_price.mul(2))
       })
 
       it("Doesnt add duplicates to the ownersList when acount1 buys a song twice", async () => {
