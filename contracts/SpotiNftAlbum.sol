@@ -19,6 +19,7 @@ contract SpotiNftAlbum is ERC721{
    address payable private owner;
    SpotiNftSong[] private song_nfts;
    mapping(address => SpotiNftSong ) address_to_song;
+   mapping(address => bool) owners;
 
    modifier onlyOwner(address sender){
       if(sender != owner){
@@ -66,7 +67,10 @@ contract SpotiNftAlbum is ERC721{
       tokenId.increment();
       uint256 newTokenId = tokenId.current();
       _safeMint(msg.sender, newTokenId);
-      ownersList.push(msg.sender);
+      if(!owners[msg.sender]){
+         ownersList.push(msg.sender);
+         owners[msg.sender] = true;
+      }
       emit AlbumMinted(msg.sender, tokenId.current());
    }
 
