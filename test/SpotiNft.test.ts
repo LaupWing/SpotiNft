@@ -246,13 +246,16 @@ describe("SpotiNft", () => {
    })
 
    describe.only("Songs", () => {
-      it("Sets correct song mintfee", async () => {
+      it("Sets up the song nft correctly", async () => {
          const {
             nft_album
          } = await loadFixture(deploySpotiAlbumFixture)
          const songs = await nft_album.getSongs() 
          const songContract = await ethers.getContractAt("SpotiNftSong", songs[0])
          expect(await songContract.getMintFee()).equal(ALBUM_OBJECT.song_price)
+         expect(await songContract.getAlbum()).equal(nft_album.address)
+         expect(await songContract.getName()).equal(ALBUM_OBJECT.song_names[0])
+         expect(await songContract.getUri()).equal(ALBUM_OBJECT.song_uris[0])
       })
       it("Allows the user to mint a song", async () => {
          const {
