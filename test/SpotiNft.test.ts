@@ -245,7 +245,7 @@ describe("SpotiNft", () => {
       })
    })
 
-   describe("Songs", () => {
+   describe.only("Songs", () => {
       it("Sets correct song mintfee", async () => {
          const {
             nft_album
@@ -267,6 +267,8 @@ describe("SpotiNft", () => {
          expect((await songContract.getOwners())[0]).equal(account1.address)
          expect(await songContract.ownerOf(1)).equal(account1.address)
          expect(await songContract.getCurrentTokenId()).equal(1)
+         expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.song_price)
+         // console.log(await songContract.getBalance())
       })
 
    })
