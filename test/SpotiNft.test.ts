@@ -303,6 +303,7 @@ describe("SpotiNft", () => {
          })
          expect(await songContract.ownerOf(1)).equal(account1.address)
          expect(await songContract.ownerOf(2)).equal(account2.address)
+         console.log(await songContract.getOwners())
       })
    })
 })
