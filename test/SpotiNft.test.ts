@@ -346,7 +346,7 @@ describe("SpotiNft", () => {
          expect(await songContract.getName()).equal(newSongTitle)
       })
 
-      it.only("Emits correct event when a new song has been added", async () => {
+      it("Emits correct event when a new song has been added", async () => {
          const {
             nft_album
          } = await loadFixture(deploySpotiAlbumFixture)
