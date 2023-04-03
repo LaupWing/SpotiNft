@@ -330,11 +330,15 @@ describe("SpotiNft", () => {
       })
 
       it.only("Allows owner to add a new song to the album", async () => {
+         const newSongUri = "new_song_ipfs_uri.mp3"
+         const newSongTitle = "My new song"
+
          const {
             nft_album
          } = await loadFixture(deploySpotiAlbumFixture)
          const songsBefore = await nft_album.getSongs()
-         await nft_album.addSong("new_song_ipfs_uri.mp3", "My new song")
+         
+         await nft_album.addSong(newSongUri, newSongTitle)
          const songsAfter = await nft_album.getSongs()
          expect(songsAfter.length).to.be.above(songsBefore.length)
          const songContract = await ethers.getContractAt("SpotiNftSong", songsAfter[songsAfter.length - 1])
