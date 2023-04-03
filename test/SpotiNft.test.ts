@@ -328,5 +328,18 @@ describe("SpotiNft", () => {
          expect(await songContract.getLatestTokenId()).equal(2)
          expect(await songContract.getOwners()).lengthOf(1)
       })
+
+      it.only("Allows owner to add a new song to the album", async () => {
+         const {
+            nft_album
+         } = await loadFixture(deploySpotiAlbumFixture)
+         const songsBefore = await nft_album.getSongs()
+         await nft_album.addSong("new_song_ipfs_uri.mp3", "My new song")
+         const songsAfter = await nft_album.getSongs()
+         expect(songsAfter.length).to.be.above(songsBefore.length)
+         const songContract = await ethers.getContractAt("SpotiNftSong", songsAfter[songsAfter.length - 1])
+
+         console.log(await songContract.getName())
+      })
    })
 })
