@@ -329,7 +329,7 @@ describe("SpotiNft", () => {
          expect(await songContract.getOwners()).lengthOf(1)
       })
 
-      it.only("Allows owner to add a new song to the album", async () => {
+      it("Allows owner to add a new song to the album", async () => {
          const newSongUri = "new_song_ipfs_uri.mp3"
          const newSongTitle = "My new song"
 
@@ -343,7 +343,8 @@ describe("SpotiNft", () => {
          expect(songsAfter.length).to.be.above(songsBefore.length)
          const songContract = await ethers.getContractAt("SpotiNftSong", songsAfter[songsAfter.length - 1])
 
-         console.log(await songContract.getName())
+         expect(await songContract.getUri()).equal(newSongUri)
+         expect(await songContract.getName()).equal(newSongTitle)
       })
    })
 })
