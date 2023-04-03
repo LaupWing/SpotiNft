@@ -346,6 +346,21 @@ describe("SpotiNft", () => {
          expect(await songContract.getName()).equal(newSongTitle)
       })
 
+      it.only("Emits correct event when a new song has been added", async () => {
+         const {
+            nft_album
+         } = await loadFixture(deploySpotiAlbumFixture)
+         
+         const transaction = await nft_album.addSong(newSongUri, newSongTitle)
+         const transactionReceipt = await transaction.wait()
+         const songAddress = transactionReceipt.events?.find(x => x.event === "SongAdded" )!.args![0]
+         await expect(transaction).to.emit(nft_album, "SongAdded").withArgs(
+            songAddress,
+            newSongUri,
+            newSongTitle
+         )
+      })
+
       it("Reverts with custom error when non owner tries to adds a song", async () => {
          const {
             nft_album,

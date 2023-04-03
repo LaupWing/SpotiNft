@@ -121,7 +121,7 @@ contract SpotiNftAlbum is ERC721{
       }
    }
 
-   function setSong(string memory _song_uri, string memory _song_name) internal {
+   function setSong(string memory _song_uri, string memory _song_name) internal returns(address) {
       SpotiNftSong newSpotiNFtSong = new SpotiNftSong(
          _song_uri,
          _song_name,
@@ -130,12 +130,12 @@ contract SpotiNftAlbum is ERC721{
       address new_address = address(newSpotiNFtSong);
       address_to_song[new_address] = newSpotiNFtSong;
       song_nfts.push(newSpotiNFtSong);
-      return new_address
+      return new_address;
    }
 
    function addSong(string memory _song_uri, string memory _song_name) public onlyOwner(msg.sender){
       address song_address = setSong(_song_uri, _song_name);
-      SongAdded(song_address, _song_uri, _song_name);
+      emit SongAdded(song_address, _song_uri, _song_name);
    }
 
    function buySong(
