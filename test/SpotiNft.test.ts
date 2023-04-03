@@ -351,7 +351,8 @@ describe("SpotiNft", () => {
             nft_album,
             account1
          } = await loadFixture(deploySpotiAlbumFixture)
-         nft_album.connect(account1)
+         await expect(nft_album.connect(account1).addSong(newSongUri, newSongTitle))
+            .to.revertedWithCustomError(nft_album, "SpotiAlbum__OnlyOwner")
       })
    })
 })
