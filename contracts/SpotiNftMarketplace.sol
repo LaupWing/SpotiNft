@@ -47,12 +47,6 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string indexed name
    );
 
-   event SongAdded (
-      address indexed song_address,
-      string indexed uri,
-      string indexed name
-   );
-
    modifier alreadyRegistered(){
       Artist memory _artist = artists[msg.sender]; 
       if(_artist.created){
