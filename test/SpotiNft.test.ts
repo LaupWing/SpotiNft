@@ -246,6 +246,8 @@ describe("SpotiNft", () => {
    })
 
    describe.only("Songs", () => {
+      const newSongUri = "new_song_ipfs_uri.mp3"
+      const newSongTitle = "My new song"
       it("Sets up the song nft correctly", async () => {
          const {
             nft_album
@@ -330,9 +332,6 @@ describe("SpotiNft", () => {
       })
 
       it("Allows owner to add a new song to the album", async () => {
-         const newSongUri = "new_song_ipfs_uri.mp3"
-         const newSongTitle = "My new song"
-
          const {
             nft_album
          } = await loadFixture(deploySpotiAlbumFixture)
@@ -345,6 +344,14 @@ describe("SpotiNft", () => {
 
          expect(await songContract.getUri()).equal(newSongUri)
          expect(await songContract.getName()).equal(newSongTitle)
+      })
+
+      it("Reverts with custom error when non owner tries to adds a song", async () => {
+         const {
+            nft_album,
+            account1
+         } = await loadFixture(deploySpotiAlbumFixture)
+         nft_album.connect(account1)
       })
    })
 })
