@@ -46,6 +46,10 @@ contract SpotiNftAlbum is ERC721{
       string indexed name
    );
 
+   event SongMinted (
+      uint256 tokenId
+   );
+
    constructor(
       string memory _name,
       string memory _cover_uri,
@@ -142,7 +146,8 @@ contract SpotiNftAlbum is ERC721{
       address _spotiNftAddress
    ) public payable songMintCheck{
       SpotiNftSong song = address_to_song[_spotiNftAddress];
-      song.mintSong(msg.sender, msg.value);
+      uint256 songTokenId = song.mintSong(msg.sender, msg.value);
+      emit SongMinted(songTokenId);
    }
 
    function getSongsAddresses() public view returns(address[] memory){

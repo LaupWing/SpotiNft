@@ -16,10 +16,6 @@ contract SpotiNftSong is ERC721{
    mapping (address => bool) private owners;
    address private album;
 
-   event SongMinted (
-      uint256 tokenId
-   );
-
    constructor(
       string memory _uri,
       string memory _name,
@@ -30,7 +26,7 @@ contract SpotiNftSong is ERC721{
       mintFee = _mintFee;
    }
 
-   function mintSong(address buyer, uint256 eth) public {
+   function mintSong(address buyer, uint256 eth) public returns(uint256) {
       if(eth < mintFee){
          revert SpotiNftSong__NotEoughEthSend();
       }
@@ -41,7 +37,7 @@ contract SpotiNftSong is ERC721{
          ownersList.push(buyer);
          owners[buyer] = true;
       }
-      emit SongMinted(newTokenId);
+      return newTokenId;
    }
 
    function getUri() public view returns(string memory){
