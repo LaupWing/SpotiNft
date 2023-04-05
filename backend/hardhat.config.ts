@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config"
 import "@nomicfoundation/hardhat-toolbox"
+import "hardhat-contract-sizer"
 
 const config: HardhatUserConfig = {
    solidity: {
@@ -7,9 +8,15 @@ const config: HardhatUserConfig = {
       settings: {
          optimizer: {
            enabled: true,
-           runs: 10
+           runs: 200
          },
       }
+   },
+   contractSizer: {
+      alphaSort: true,
+      disambiguatePaths: false,
+      runOnCompile: true,
+      strict: true,
    },
    networks:{
       hardhat:{
