@@ -275,7 +275,7 @@ describe("SpotiNft", () => {
          expect(await nft_album.getBalance()).equal(ALBUM_OBJECT.song_price)
       })
 
-      it.only("Increments and emits the tokenID correctly of a bought song", async () => {
+      it("Increments and emits the tokenID correctly of a bought song", async () => {
          const {
             nft_album,
             account1,
@@ -290,8 +290,9 @@ describe("SpotiNft", () => {
             value: ALBUM_OBJECT.song_price
          })
          await expect(transaction1).to.emit(nft_album, "SongMinted")
-         console.log((await transaction1.wait()).events[1].args)
+            .withArgs(1)
          await expect(transaction2).to.emit(nft_album, "SongMinted")
+            .withArgs(2)
          expect(await songContract.getLatestTokenId()).equal(2)
       })
 
