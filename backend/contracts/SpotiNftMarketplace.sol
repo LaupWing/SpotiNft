@@ -122,24 +122,24 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string[] memory _song_names,
       uint256 _song_price
    ) public checkRegistration{
-      SpotiNftAlbum createdAlbum = new SpotiNftAlbum(
-         _name,
-         _cover_uri,
-         _album_price,
-         _song_uris,
-         _song_names,
-         _song_price,
-         msg.sender
-      );
-      address created_album_address = address(createdAlbum);
-      albums[created_album_address] = msg.sender;
-      Artist storage artist = artists[msg.sender];
-      artist.albums.push(address(createdAlbum));
-      albumsArray.push(createdAlbum);
-      emit AlbumCreated(created_album_address, _name);
+      // SpotiNftAlbum createdAlbum = new SpotiNftAlbum(
+      //    _name,
+      //    _cover_uri,
+      //    _album_price,
+      //    _song_uris,
+      //    _song_names,
+      //    _song_price,
+      //    msg.sender
+      // );
+      // address created_album_address = address(createdAlbum);
+      // albums[created_album_address] = msg.sender;
+      // Artist storage artist = artists[msg.sender];
+      // artist.albums.push(address(createdAlbum));
+      // albumsArray.push(createdAlbum);
+      // emit AlbumCreated(created_album_address, _name);
    }
 
-   function getAlbums() public view returns(SpotiNftAlbum[] memory){
-      return albumsArray;
-   }
+   // function getAlbums() public view returns(SpotiNftAlbum[] memory){
+   //    return albumsArray;
+   // }
 }
