@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "./SpotiNftAlbum.sol";
+import "./SpotiNftAlbumFactory.sol";
 import "./SpotiNftSong.sol";
 
 error SpotiNftMarketplace__AlreadyRegistered(
@@ -26,6 +26,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
    mapping(address => address) private albums;
    mapping(address => Artist) private artists;
    address[] private artistsArray;
+   address private albumFactory;
    SpotiNftAlbum[] private albumsArray;
 
    struct Artist {
@@ -74,6 +75,7 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       "SNFT"
    ){
       owner = payable(msg.sender);
+      albumFactory = address(new SpotiNftAlbumFactory());
    }
 
    function register(
@@ -122,15 +124,15 @@ contract SpotiNftMarketplace is ERC721URIStorage {
       string[] memory _song_names,
       uint256 _song_price
    ) public checkRegistration{
-      SpotiNftAlbum createdAlbum = new SpotiNftAlbum(
+      address createdAlbum = SpotiNftAlbumFactory(albumFactory).createAlbum(
          _name,
          _cover_uri,
          _album_price,
          _song_uris,
          _song_names,
-         _song_price,
-         msg.sender
+         _song_price
       );
+      
       // address created_album_address = address(createdAlbum);
       // albums[created_album_address] = msg.sender;
       // Artist storage artist = artists[msg.sender];
